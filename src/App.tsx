@@ -1,4 +1,5 @@
-
+import { AiOutlineSearch } from 'react-icons/ai'
+import Card from './components/Card'
 
 function App() {
 
@@ -10,16 +11,21 @@ function App() {
   // Posteriormente, autenticação e niveis de autoridade
   return (
     <div className="h-full w-full">
-      <header className="flex flex-col items-center w-full gap-8 bg-gradient-to-l from-blue-500 to-purple-500 h-auto py-6">
+      <header className="flex flex-col items-center w-full gap-8 bg-gradient-to-tl from-blue-400 to-purple-800 h-auto py-8">
         <div className="flex flex-row justify-between w-11/12 items-center text-white font-light">
           <span>TheReal</span>
           <span>Blog</span>
         </div>
-        <div>
-          <input type="text" placeholder="Pesquisar no blog"></input>
+        <div className='relative w-full justify-center flex flex-row mb-1'>
+          <div className="absolute inset-y-0 left-2 flex items-center pl-3 pointer-events-none">
+          <AiOutlineSearch className="text-xl text-white font-bold" />
+          </div>
+          <input type="text" className="outline-none p-2 w-11/12 rounded-lg pl-8 bg-opacity-25 bg-white text-white placeholder:text-white font-light text-sm" placeholder="Pesquisar no blog"></input>
         </div>
       </header>
-      <main className="flex flex-col gap-3 justify-center items-center"></main>
+      <main className="flex flex-col gap-3 justify-center items-center">
+        <Card />
+      </main>
     </div>
   )
 }
