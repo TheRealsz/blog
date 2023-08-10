@@ -10,8 +10,8 @@ function App() {
   // Add Dark Mode
   // Posteriormente, autenticação e niveis de autoridade
   return (
-    <div className="h-full w-full">
-      <header className="flex flex-col items-center w-full gap-8 bg-gradient-to-tl from-blue-400 to-purple-800 h-auto py-8">
+    <div className="h-full w-full flex flex-col gap-5">
+      <header className="flex flex-col items-center w-full gap-8 bg-gradient-to-tl from-blue-400 to-violet-800 h-auto py-8">
         <div className="flex flex-row justify-between w-11/12 items-center text-white font-light">
           <span>TheReal</span>
           <span>Blog</span>
