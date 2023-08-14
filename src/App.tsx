@@ -1,8 +1,21 @@
+import { useState, useEffect } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import Card from './components/Card'
 import ScrollToTop from './components/ScrollToTop'
 
 function App() {
+
+  const [showTopBtn, setShowTopBtn] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            setShowTopBtn(true);
+        } else {
+            setShowTopBtn(false);
+        }
+    });
+}, []);
 
   // Blog
   // Blog com search engine
@@ -28,17 +41,13 @@ function App() {
       <main className="flex justify-center items-center w-full">
         <div className='flex flex-col justify-center gap-10 items-center max-w-4xl'>
           <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
         </div>
       </main>
-      <footer className='flex flex-row w-full justify-end'>
+      <div className={`${showTopBtn == true ? 'fixed bottom-1 right-1 z-20' : 'opacity-0'} duration-500 transition-all`}>
         <div className='pr-2'>
           <ScrollToTop />
         </div>
-      </footer>
+      </div>
     </div>
   )
 }

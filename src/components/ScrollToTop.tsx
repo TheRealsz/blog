@@ -7,7 +7,7 @@ const ScrollToTop = () => {
     }
 
     return (
-            <button className="flex w-10 h-10 rounded-full bg-gray-400 items-center justify-center" onClick={handleScrollToTop}>
+            <button className="flex justify-center items-center h-12 w-12 bg-gradient-to-tl from-blue-400 to-violet-800 rounded-full text-white lg:h-16 lg:w-16" onClick={handleScrollToTop}>
                 <AiOutlineUp />
             </button>
     )
