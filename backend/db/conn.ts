@@ -1,17 +1,15 @@
 import mongoose from 'mongoose';
+import { env } from '../config/env'
 
 
 export async function main() {
-    const loginConnect = process.env.NODE_PASSWORD_MONGODB;
-    
-
     try {
         mongoose.set("strictQuery", true)
-        await mongoose.connect(`mongodb+srv://robindiegoa:${loginConnect}@cluster0.jem1hk6.mongodb.net/?retryWrites=true&w=majority`);
+        await mongoose.connect(`mongodb+srv://robindiegoa:${env.loginConnect}@cluster0.jem1hk6.mongodb.net/?retryWrites=true&w=majority`);
+        console.log("Conectado")
     }
     catch(e) {
         console.log(`Error: ${e}`);
     }
-
 }
 
