@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { postsSchema } from "./posts";
 
+
 // Esqueleto do model
 const { Schema } = mongoose
 
