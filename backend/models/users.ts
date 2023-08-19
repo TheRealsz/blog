@@ -1,9 +1,17 @@
-import mongoose from "mongoose";
-import { postsSchema } from "./posts";
+import mongoose, { Schema } from "mongoose";
+import { postsSchema, IPost } from "./posts";
+
+interface IUser {
+    fullname: string,
+    email: string,
+    password: string,
+    profileImg: string,
+    posts: IPost[],
+    timeStamp: boolean
+}
 
 
 // Esqueleto do model
-const { Schema } = mongoose
 
 const userSchema = new Schema({
         fullname: {
@@ -19,7 +27,7 @@ const userSchema = new Schema({
             required: true
         },
         profileImg: {
-            type: ImageData
+            type: String
         },
         posts: {
             type: [postsSchema]
@@ -28,9 +36,9 @@ const userSchema = new Schema({
         {timestamps: true}
 )
 
-const Users = mongoose.model('Users', userSchema)
+const Users = mongoose.model<IUser>('Users', userSchema)
 
 
-export { Users, userSchema }
+export { Users, userSchema, IUser }
 
 // Metodos para manipular os dados

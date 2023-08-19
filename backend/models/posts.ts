@@ -1,8 +1,15 @@
-import mongoose from "mongoose";
-import { userSchema } from "./Users";
+import mongoose, {Schema} from "mongoose";
+import { userSchema, IUser } from "./Users";
+
+interface IPost  {
+    title: string,
+    descricao: string,
+    author: IUser[],
+    likes: number,
+    timeStamp: boolean
+}
 
 
-const { Schema } = mongoose
 const postsSchema = new Schema({
     title: {
         type: String,
@@ -22,7 +29,7 @@ const postsSchema = new Schema({
 
 }, {timestamps: true})
 
-const Posts = mongoose.model('Posts', postsSchema)
+const Posts = mongoose.model<IPost>('Posts', postsSchema)
 
 
-export { Posts, postsSchema }
+export { Posts, postsSchema, IPost }
