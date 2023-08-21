@@ -20,9 +20,9 @@ const postsSchema = new Schema({
         required: true,
     },
     // Type mais especifico?
-    author: {
-        type: [userSchema],
-    }, 
+    // author: {
+    //     type: [userSchema],
+    // }, 
     likes: {
         type: Number,
     }
