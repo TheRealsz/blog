@@ -1,35 +1,38 @@
-import mongoose, {Schema} from "mongoose";
-import { userSchema, IUser } from "./Users";
+import mongoose, {Schema, Document} from "mongoose";
+import { IUser } from "./Users";
 
-interface IPost  {
+interface IPost extends Document {
     title: string,
-    descricao: string,
-    author: IUser[],
+    description: string,
+    author: IUser["_id"][],
     likes: number,
-    timeStamp: boolean
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 
-const postsSchema = new Schema({
+const postsSchema = new Schema<IPost>({
     title: {
         type: String,
         required: true,
     },
-    descricao: {
+    description: {
         type: String,
         required: true,
     },
-    // Type mais especifico?
-    // author: {
-    //     type: [userSchema],
-    // }, 
+    author: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Users"
+        } 
+    ],
     likes: {
         type: Number,
     }
 
 }, {timestamps: true})
 
-const Posts = mongoose.model<IPost>('Posts', postsSchema)
+const Posts = mongoose.model('Posts', postsSchema)
 
 
 export { Posts, postsSchema, IPost }

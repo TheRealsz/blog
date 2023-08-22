@@ -1,30 +1,20 @@
-import mongoose, { Schema } from "mongoose";
-import { postsSchema, IPost } from "./posts";
+import mongoose, { Schema, Document } from "mongoose";
+import { IPost } from "./posts";
 
-
-// Arrumar tipagem do post
-interface BlogPost {
-    titulo: 
-}
-
-interface IUser {
-    id: number,
+interface IUser extends Document {
     fullname: string,
     email: string,
     password: string,
     profileImg: string,
-    // posts: IPost[],
-    timeStamp: boolean
+    posts: IPost["_id"][];
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 
 // Esqueleto do model
 
 const userSchema = new Schema<IUser>({
-        id: {
-            type: Number,
-            required: true
-        },
         fullname: {
             type: String,   
             required: true
@@ -40,9 +30,12 @@ const userSchema = new Schema<IUser>({
         profileImg: {
             type: String
         },
-        // posts: {
-        //     type: [postsSchema]
-        // }
+        posts:[
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Posts"
+            }
+        ] 
     }, // Registro da data da data
         {timestamps: true}
 )
