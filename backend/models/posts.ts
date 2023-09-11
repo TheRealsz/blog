@@ -5,7 +5,6 @@ interface IPost extends Document {
     title: string,
     description: string,
     author: IUser["_id"][],
-    likes: number,
     createdAt: Date;
     updatedAt: Date;
 }
@@ -26,9 +25,6 @@ const postsSchema = new Schema<IPost>({
             ref: "Users"
         } 
     ],
-    likes: {
-        type: Number,
-    }
 
 }, {timestamps: true})
 

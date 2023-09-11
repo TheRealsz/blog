@@ -5,7 +5,6 @@ interface IUser extends Document {
     fullname: string,
     email: string,
     password: string,
-    profileImg: string,
     posts: IPost["_id"][];
     createdAt: Date;
     updatedAt: Date;
@@ -26,9 +25,6 @@ const userSchema = new Schema<IUser>({
         password: {
             type: String, 
             required: true
-        },
-        profileImg: {
-            type: String
         },
         posts:[
             {

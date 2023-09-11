@@ -1,15 +1,9 @@
-import Feed from './pages/Feed'
+import { Router } from './routes'
 
 function App() {
-  
-  // Blog
-  // Blog com search engine
-  // Blog com CRUD
-  // Add Dark Mode
-  // Posteriormente, autenticação e filtros de likes
   return (
-    <Feed />
-  )
+      <Router />
+    )
 }
 
 export default App

@@ -1,7 +1,7 @@
 interface EnvType {
-    loginConnect: string | undefined
+    urlConnect: string | undefined
 }
 
 export const env : EnvType = {
-    loginConnect: process.env.NODE_PASSWORD_MONGODB
+    urlConnect: process.env.NODE_URL_MONGODB
 }
