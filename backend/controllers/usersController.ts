@@ -6,25 +6,32 @@ export interface TypedRequest<T, P> extends Express.Request {
     params: P
 }
 
+export const create = async (req: TypedRequest<{fullname: string, email: string, password: string}, {}>, res: Response) => {
+    try {
+        // Pegando infos que vem da requisicao no front
+        
+        const {
+            fullname,
+            email,
+            password
+        } = req.body
 
-export const usersController = {
-    create: async function (req: TypedRequest<{fullname: string, email: string, password: string}, {}>, res: Response) {
-        try {
-            // Pegando infos que vem da requisicao no front
-            
-            const user = {
-                fullname: req.body.fullname,
-                email: req.body.email,
-                password: req.body.password
-            }
+        if (!fullname || !email || !password) {
+            return res.status(400).json({ message: 'Todos os campos são obrigatorios!' });
+        }
 
-            // Fazendo operação no BD, no caso, criacao aqui
-            const response = await Users.create(user);
-            // Status 201 quando se cria algo no banco
-            return res.status(201).json({response, msg: "Usuario cadastrado com sucesso!"})
+        const existingUser = await Users.findOne({ email });
+        if (existingUser) {
+          return res.status(400).json({ message: 'Email já cadastrado!' });
         }
-        catch(err) {
-            console.log(err)
-        }
+          
+        // Fazendo operação no BD, no caso, criacao aqui
+        const response = await Users.create(user);
+        // Status 201 quando se cria algo no banco
+        return res.status(201).json({response, msg: "Usuario cadastrado com sucesso!"})
+    }
+    catch(err) {
+        console.log(err)
+        return res.status(500).json({error: "Erro ao cadastrar usuario!"})
     }
 }
