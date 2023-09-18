@@ -9,32 +9,41 @@ const SignUp = () => {
     const [viewPassword, setViewPassword] = useState(false)
     const ref = useRef<HTMLFormElement | null>(null)
 
-    const handleSignUp = async(e: FormEvent) => {
+    const handleSignUp = async (e: FormEvent) => {
         e.preventDefault()
         const SignUpForm = ref.current
         const fullname = SignUpForm?.fullname.value
         const email = SignUpForm?.email.value
         const password = SignUpForm?.password.value
-        
-        if (!fullname || !email || !password ) {
+
+        if (!fullname || !email || !password) {
             return toast.error("Por favor, preencha todos os campos!")
-        }   
+        }
 
         try {
             const response = await axios.post('http://localhost:3000/api/users/signup', {
-                fullname, 
+                fullname,
                 email,
                 password
             })
-            console.log(response.data);
+            toast.success(response.data.msg)
             SignUpForm.reset()
-            
         }
-        catch (error) {
-            console.log(error);
-            
+        catch (err) {
+            if (axios.isAxiosError(err)) {
+                const errorResponse = err.response as IErrorResponse;
+                const msgError = errorResponse.data.message
+                if (errorResponse) {
+                    if (errorResponse.status === 400) {
+                        toast.error(msgError);
+                    }
+                } else {
+                    console.log('Erro desconhecido:', err);
+                }
+            } else {
+                console.log('Erro desconhecido:', err);
+            }
         }
-
     }
 
     return (
