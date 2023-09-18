@@ -1,5 +1,5 @@
 import { Users } from "../models/Users";
-import { Request, Response } from 'express' 
+import { Response } from 'express' 
 import bcrypt from 'bcrypt'
 
 export interface TypedRequest<T, P> extends Express.Request {
