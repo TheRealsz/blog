@@ -1,13 +1,38 @@
+import axios from 'axios'
 import { useRef, useState } from 'react'
+import toast from 'react-hot-toast'
 import { AiOutlineEye } from 'react-icons/ai'
 
 const Login = () => {
     const [viewPassword, setViewPassword] = useState(false)
     const ref = useRef<HTMLFormElement | null>(null)
 
+    const handleLogin = async () => {
+        const loginRef = ref.current
+        const email = loginRef?.email.value
+        const password = loginRef?.password.value
+
+        if (!email || !password) {
+            return toast.error("Por favor, preencha todos os campos!")
+        }
+
+        try {
+            const response = await axios.post("http://localhost:3000/api/user/login", {
+                email,
+                password
+            })
+            console.log(response);
+            
+        }
+        catch (err) {
+            console.log(err);
+            
+        }
+    }
+
     return (
-        <div className="w-screen h-screen">
-            <div className="w-full h-full flex justify-center">
+        <div className="w-screen h-screen flex">
+            <div className="w-full h-full flex justify-center items-center">
                 <div className="w-5/6 h-full flex flex-col justify-center items-center sm:w-7/12 md:w-5/12 lg:w-1/2 xl:items-start xl:pl-20 2xl:pl-28">
                     <div className="w-full flex flex-col gap-9 lg:w-8/12 xl:w-7/12">
                         <div className="w-full flex flex-col items-center gap-4 sm:items-start">
@@ -21,10 +46,10 @@ const Login = () => {
                             </div>
                             <div className="flex text-center flex-col gap-1 xl:text-left">
                                 <span className="text-xl font-semibold text-gray-800 2xl:text-2xl">Bem vindo ao TheReal!</span>
-                                <p className="text-black/50 font-normal 2xl:text-lg">Faça o login ou cadastre-se para saber de tudo sobre o mundo da tecnologia e da programação em nosos site!</p>
+                                <p className="text-black/50 font-light 2xl:text-lg">Faça o login ou cadastre-se para saber de tudo sobre o mundo da tecnologia e da programação em nosos site!</p>
                             </div>
                         </div>
-                        <form className="w-full flex" name="SignUpForm" ref={ref}>
+                        <form className="w-full flex" name="SignUpForm" ref={ref} onSubmit={handleLogin}>
                             <div className="w-full flex flex-col gap-4">
                                 <div className='w-full flex flex-col'>
                                     <label className='2xl:text-lg'>Email</label>
@@ -33,15 +58,15 @@ const Login = () => {
                                 <div className='w-full flex flex-col'>
                                     <label className='2xl:text-lg'>Senha</label>
                                     <div className='w-full flex items-center justify-between text-center'>
-                                        <input required name='password' type={`${viewPassword == false ? "password" : "text"}`} placeholder='Insira sua senha' className='peer pl-3 py-1.5 w-11/12 rounded-l-md border-gray-300 border-solid border border-r-0 focus:border-violet-600 outline-none 2xl:py-2' />
-                                        <button type='button' className='bg-white h-full w-1/12 rounded-r-md border-l-0 border border-solid flex justify-center items-center border-gray-300 peer-focus:border-violet-600 cursor-default' onClick={() => setViewPassword(!viewPassword)}><AiOutlineEye className='text-slate-500 cursor-pointer' /></button>
+                                        <input name='password' type={`${viewPassword == false ? "password" : "text"}`} placeholder='Insira sua senha' className='peer pl-3 py-1.5 w-11/12 rounded-l-md border-gray-300 border-solid border border-r-0 focus:border-purple-heart-400 outline-none 2xl:py-2' />
+                                        <button type='button' className='bg-white h-full w-1/12 rounded-r-md border-l-0 border border-solid flex justify-center items-center border-gray-300 peer-focus:border-purple-heart-400 cursor-default' onClick={() => setViewPassword(!viewPassword)}><AiOutlineEye className='text-slate-500 cursor-pointer' /></button>
                                     </div>
                                     <div className="pt-1 text-xs text-slate-800 flex w-full justify-between items-center font-light">
-                                        <div className="flex items-center w-8/12">
-                                            <input type="checkbox" className="mr-1" />
-                                            <label>Mantenha-me conectado</label>
+                                        <div className='flex items-center'>
+                                            <input type="checkbox" />
+                                            <label className='pl-1'>Continuar conectado</label>
                                         </div>
-                                        <a className="text-violet-800 w-4/12">Esqueceu a senha?</a>
+                                        <a className="text-violet-800">Esqueceu a senha?</a>
                                     </div>
                                 </div>
                                 <div className="w-full pt-6">
@@ -49,6 +74,9 @@ const Login = () => {
                                 </div>
                             </div>
                         </form>
+                        <div className='text-black/50 text-center'>
+                            <p>Não possui conta? <a href='/signin' className='font-semibold text-violet-800'>Cadastre-se!</a></p>
+                        </div>
                     </div>
                 </div>
                 <aside className="hidden w-1/2 h-full bg-gradient-to-tl from-blue-400 to-violet-800 lg:flex justify-center items-center"></aside>

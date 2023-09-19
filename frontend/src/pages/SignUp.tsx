@@ -19,12 +19,12 @@ const SignUp = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/api/users/signup', {
+            const response = await axios.post('http://localhost:3000/api/user/signup', {
                 fullname,
                 email,
                 password
             })
-            toast.success(response.data.msg)
+            toast.success(response.data.message)
             SignUpForm.reset()
         }
         catch (err) {
@@ -60,7 +60,7 @@ const SignUp = () => {
                             </div>
                             <div className="text-center flex flex-col gap-1 xl:text-left">
                                 <span className="text-xl font-semibold text-gray-800 2xl:text-2xl">Cadastre-se!</span>
-                                <p className="text-black/50 font-normal 2xl:text-lg">Fique por dentro das ultimas novidades e noticias do mundo da tecnologia e da programação dentro de nosso site!</p>
+                                <p className="text-black/50 font-light 2xl:text-lg">Fique por dentro das ultimas novidades e noticias do mundo da tecnologia e da programação dentro de nosso site!</p>
                             </div>
                         </div>
                         <form className="w-full flex" name="SignUpForm" ref={ref} onSubmit={handleSignUp}>
