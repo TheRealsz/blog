@@ -67,6 +67,7 @@ export const login = async (req: TypedRequest<{ email: string, password: string 
 
         const token = jwt.sign(
             { email },
+            process.env.JWT_KEY as string,
             { expiresIn: '1w' }
           );
         
