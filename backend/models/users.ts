@@ -28,7 +28,8 @@ const userSchema = new Schema<IUser>({
             required: true
         },  
         token: {
-            type: String
+            type: String,
+            required: false
         },
         posts:[
             {

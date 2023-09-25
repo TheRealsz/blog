@@ -64,14 +64,14 @@ export const login = async (req: TypedRequest<{ email: string, password: string 
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(404).json({ message: "Email ou senha incorreto"})
         }
-
+        
         const token = jwt.sign(
             { email },
             process.env.JWT_KEY as string,
             { expiresIn: '1w' }
           );
         
-        return res.status(200).json({token, user, message: "Login realizado com sucesso!"})
+        return res.status(200).json({token, message: "Login realizado com sucesso!"})
 
     }
     catch (err) {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useRef, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { AiOutlineEye } from 'react-icons/ai'
 
@@ -7,7 +7,8 @@ const Login = () => {
     const [viewPassword, setViewPassword] = useState(false)
     const ref = useRef<HTMLFormElement | null>(null)
 
-    const handleLogin = async () => {
+    const handleLogin = async (e: FormEvent) => {
+        e.preventDefault()
         const loginRef = ref.current
         const email = loginRef?.email.value
         const password = loginRef?.password.value
@@ -75,7 +76,7 @@ const Login = () => {
                             </div>
                         </form>
                         <div className='text-black/50 text-center'>
-                            <p>Não possui conta? <a href='/signin' className='font-semibold text-violet-800'>Cadastre-se!</a></p>
+                            <p>Não possui conta? <a href='/signup' className='font-semibold text-violet-800'>Cadastre-se!</a></p>
                         </div>
                     </div>
                 </div>
