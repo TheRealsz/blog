@@ -2,6 +2,7 @@ import axios from 'axios'
 import { FormEvent, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { AiOutlineEye } from 'react-icons/ai'
+import { getTokenFromStorage, setTokenOnStorage } from '../utils/tokenStorage'
 
 const Login = () => {
     const [viewPassword, setViewPassword] = useState(false)
@@ -22,7 +23,8 @@ const Login = () => {
                 email,
                 password
             })
-            console.log(response);
+            const token = response.data.userWithoutPassword.token
+            setTokenOnStorage(token)
             
         }
         catch (err) {
@@ -30,7 +32,7 @@ const Login = () => {
             
         }
     }
-
+    
     return (
         <div className="w-screen h-screen flex">
             <div className="w-full h-full flex justify-center items-center">

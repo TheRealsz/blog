@@ -39,8 +39,14 @@ export const create = async (req: TypedRequest<{ fullname: string, email: string
             email,
             password: passwordEncrypted,
         });
+
+        const user = {
+            ...response.toObject(),
+            password: undefined
+        }
+
         // Status 201 quando se cria algo no banco
-        return res.status(201).json({ response, message: "Cadastro realizado!" })
+        return res.status(201).json({ user ,message: "Cadastro realizado!" })
     }
     catch (err) {
         console.log(err)
@@ -70,8 +76,16 @@ export const login = async (req: TypedRequest<{ email: string, password: string 
             process.env.JWT_KEY as string,
             { expiresIn: '1w' }
           );
-        
-        return res.status(200).json({token, message: "Login realizado com sucesso!"})
+
+        user.token = token;
+        await user.save()
+
+        const userWithoutPassword = {
+            ...user.toObject(), 
+            password: undefined,
+        }
+
+        return res.status(200).json({userWithoutPassword, message: "Login realizado com sucesso!"})
 
     }
     catch (err) {
