@@ -1,16 +1,17 @@
 import mongoose, {Schema, Document} from "mongoose";
-import { IUser } from "./Users";
+import { IUserDocument } from "./users";
 
-interface IPost extends Document {
+export interface IPost {
     title: string,
     description: string,
-    author: IUser["_id"][],
+    author: IUserDocument["_id"][],
     createdAt: Date;
     updatedAt: Date;
 }
 
+export interface IPostDocument extends IPost, Document {}
 
-const postsSchema = new Schema<IPost>({
+const postsSchema = new Schema({
     title: {
         type: String,
         required: true,
@@ -31,4 +32,4 @@ const postsSchema = new Schema<IPost>({
 const Posts = mongoose.model('Posts', postsSchema)
 
 
-export { Posts, postsSchema, IPost }
+export { Posts, postsSchema }

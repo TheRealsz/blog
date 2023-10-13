@@ -2,7 +2,7 @@ import axios from 'axios'
 import { FormEvent, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { AiOutlineEye } from 'react-icons/ai'
-import { getTokenFromStorage, setTokenOnStorage } from '../utils/tokenStorage'
+import { setTokenOnStorage } from '../utils/tokenStorage'
 
 const Login = () => {
     const [viewPassword, setViewPassword] = useState(false)

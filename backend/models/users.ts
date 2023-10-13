@@ -1,20 +1,20 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IPost } from "./posts";
-
-interface IUser extends Document {
+import { IPostDocument } from "./posts";
+export interface IUser {
     fullname: string,
     email: string,
     password: string,
     token: string,
-    posts: IPost["_id"][];
+    posts: IPostDocument["_id"][];
     createdAt: Date;
     updatedAt: Date;
 }
 
+export interface IUserDocument extends IUser, Document {}
 
 // Esqueleto do model
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema({
         fullname: {
             type: String,   
             required: true
@@ -44,6 +44,6 @@ const userSchema = new Schema<IUser>({
 const Users = mongoose.model('Users', userSchema)
 
 
-export { Users, userSchema, IUser }
+export { Users, userSchema }
 
 // Metodos para manipular os dados
