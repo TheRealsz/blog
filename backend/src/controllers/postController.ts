@@ -1,5 +1,6 @@
 import { Posts } from "../models/posts";
 import { Request, Response } from "express";
+import { Users } from "../models/users";
 
 
 export const create = async (req: Request , res: Response) => {
@@ -7,7 +8,7 @@ export const create = async (req: Request , res: Response) => {
         const {
             title,
             description,
-            author,
+            authorID,
         } = req.body
 
         // Caso nao venha nada dos seguintes campos
@@ -16,15 +17,20 @@ export const create = async (req: Request , res: Response) => {
         }
 
         // Caso não haja autor do post
-        if (!author) {
+        if (!authorID) {
             return res.status(400).json({ message: "Usuario não encontrado em nosso banco de dados!" })
         }
+
+        // Populando o authorName
+        const author = await Users.findOne({ _id: authorID })
+        const authorName = author?.fullname
 
         // Criando post
         const post = await Posts.create({
             title,
             description,
-            author
+            authorID,
+            authorName
         })
 
         return res.status(201).json({post, message: "Post criado com sucesso!"})

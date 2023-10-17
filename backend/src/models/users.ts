@@ -4,7 +4,7 @@ export interface IUser {
     fullname: string,
     email: string,
     password: string,
-    token: string,
+    token?: string,
     posts: IPostDocument["_id"][];
     createdAt: Date;
     updatedAt: Date;
@@ -45,5 +45,3 @@ const Users = mongoose.model('Users', userSchema)
 
 
 export { Users, userSchema }
-
-// Metodos para manipular os dados

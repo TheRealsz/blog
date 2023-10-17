@@ -4,26 +4,30 @@ import { Users } from "../models/users";
 
 
 export const tokenValidation = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("validating token");
 
     try {
         // Pegando o token
         const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader && authorizationHeader.split(',')[1]
-
+        const token = authorizationHeader?.split(' ')[1]
+        
         // Verificando se existe algo no Barear
         if (!token) {
             return res.status(401).json({ message: 'Token de autorização ausente' });
         }
+        
+        // Comparando com o que se tem no .env  
+        const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload
 
-        // Comparando com o que se tem no .env
-        const verifyToken = jwt.verify(token, process.env.JWT_KEY as string) as jwt.JwtPayload
         if (!verifyToken) {
             return res.status(401).json({ message: "Token de autorização invalido" });
         }
 
         // Verificando se existe esse token e esta realmente linkado a algum usuario
-        const users = await Users.findById(verifyToken.email)
+        const users = await Users.findOne(
+            {
+                email: verifyToken.email
+            }
+        )
 
         // Caso não
         if (!users) {

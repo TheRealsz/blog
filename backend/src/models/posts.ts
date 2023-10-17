@@ -1,15 +1,16 @@
-import mongoose, {Schema, Document} from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import { IUserDocument } from "./users";
 
 export interface IPost {
     title: string,
     description: string,
-    author: IUserDocument["_id"][],
+    authorID: IUserDocument["_id"][],
+    authorName: string,
     createdAt: Date;
     updatedAt: Date;
 }
 
-export interface IPostDocument extends IPost, Document {}
+export interface IPostDocument extends IPost, Document { }
 
 const postsSchema = new Schema({
     title: {
@@ -20,14 +21,18 @@ const postsSchema = new Schema({
         type: String,
         required: true,
     },
-    author: [
+    authorID: [
         {
             type: Schema.Types.ObjectId,
             ref: "Users"
-        } 
+        }
     ],
+    authorName: {
+        type: String,
+        ref: "Users"
+    }
 
-}, {timestamps: true})
+}, { timestamps: true })
 
 const Posts = mongoose.model('Posts', postsSchema)
 

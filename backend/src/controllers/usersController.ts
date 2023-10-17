@@ -39,7 +39,6 @@ export const create = async (req: Request,  res: Response) => {
             ...response.toObject(),
             password: undefined
         }
-
         // Status 201 quando se cria algo no banco
         return res.status(201).json({ user ,message: "Cadastro realizado!" })
     }
@@ -71,7 +70,7 @@ export const login = async (req: Request, res: Response) => {
         // Criando token juntamente do email
         const token = jwt.sign(
             { email },
-            process.env.JWT_KEY as string,
+            process.env.JWT_SECRET as string,
             { expiresIn: '1w' }
           );
         
@@ -91,5 +90,45 @@ export const login = async (req: Request, res: Response) => {
     catch (err) {
         console.log(err);
         return res.status(500).json({ message: "Erro ao realizar o login!" })
+    }
+}
+
+export const logout = async (req: Request, res: Response) => {
+    try {
+        // Recuperando o Id do usuario
+        const { userId } = req.body
+        
+        // Verifica se veio algo no body
+        if (!userId) {
+            return res.status(400).json({ message: 'Usuario não encontrado!' });
+        }
+
+        // Tenando encontrar o usuario pelo id
+        const user = await Users.findOne({ _id: userId })
+
+        // Tratativa caso nao encontre o usuario
+        if (!user) {
+            return res.status(400).json({ message: 'Usuario não identificado!' });
+        }
+
+        // Modificando o token do usuario para undefined
+        user.token = ""
+        await user.save()
+
+        return res.status(200).json({ message: "Logout realizado com sucesso!" })
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Erro ao deslogar!" })
+    }
+}
+
+export const edit = async (req: Request, res: Response) => {
+    try {
+
+    }
+    catch(err) {
+        console.log(err);
+        return res.status(500).json({ message: "Erro ao deslogar!" })
     }
 }
