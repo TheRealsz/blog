@@ -40,3 +40,55 @@ export const create = async (req: Request , res: Response) => {
         return res.status(500).json({ message: "Erro ao criar post!" })
     }   
 }
+
+export const getAll = async (req: Request, res: Response) => {
+    try {
+        const posts = await Posts.find()
+        return res.status(200).json(posts)
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).json({ message: "Erro ao buscar posts!" })
+    }
+}
+
+export const update = async (req: Request, res: Response) => {
+    try {
+        const postId = req.params.postId
+        const userId = req.params.userId
+
+        if (!postId || !userId) {
+            return res.status(400).json({ message: "Post ou usuario não encontrado!" })
+        }
+
+        const post = await Posts.findById(postId)
+        const authorPost = post?.authorID?.toString()
+
+        if(authorPost !== userId) {
+            return res.status(400).json({ message: "Usuario não autorizado!" })
+        }
+
+        const {
+            title,
+            description
+        } = req.body
+
+        // Verifica se ambos os campos estão vazios
+        if (!title && !description) {
+            return res.status(400).json({ message: "Preencha pelo menos um dos campos para editar!" })
+        }
+        // Atualiza o post
+        const updatedPost = await Posts.findByIdAndUpdate(postId, {
+            title: title || post?.title,
+            description: description || post?.description
+        }, { new: true })
+
+        return res.status(200).json({ updatedPost, message: "Post atualizado com sucesso!" })
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).json({ message: "Erro ao atualizar post!" })
+    }
+}
+
+
