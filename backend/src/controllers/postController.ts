@@ -5,25 +5,29 @@ import { Users } from "../models/users";
 
 export const create = async (req: Request , res: Response) => {
     try {
+        const authorID = req.params.userId
+
+        if (!authorID) {
+            return res.status(400).json({ message: "Usuario não encontrado!" })
+        }
+
+        const user = await Users.findOne({ _id: authorID })
+
+        if (!user) {
+            return res.status(400).json({ message: "Usuario não encontrado!" })
+        }
+
         const {
             title,
-            description,
-            authorID,
+            description
         } = req.body
 
         // Caso nao venha nada dos seguintes campos
         if (!title || !description) {
             return res.status(400).json({ message: "Todos os campos são obrigatorios!"})
         }
-
-        // Caso não haja autor do post
-        if (!authorID) {
-            return res.status(400).json({ message: "Usuario não encontrado em nosso banco de dados!" })
-        }
-
         // Populando o authorName
-        const author = await Users.findOne({ _id: authorID })
-        const authorName = author?.fullname
+        const authorName = user?.fullname
 
         // Criando post
         const post = await Posts.create({
@@ -57,11 +61,13 @@ export const update = async (req: Request, res: Response) => {
         const postId = req.params.postId
         const userId = req.params.userId
 
-        if (!postId || !userId) {
+        const post = await Posts.findById(postId)
+        const user = await Users.findById({ _id: userId })
+
+        if (!post || !user) {
             return res.status(400).json({ message: "Post ou usuario não encontrado!" })
         }
 
-        const post = await Posts.findById(postId)
         const authorPost = post?.authorID?.toString()
 
         if(authorPost !== userId) {
@@ -77,17 +83,50 @@ export const update = async (req: Request, res: Response) => {
         if (!title && !description) {
             return res.status(400).json({ message: "Preencha pelo menos um dos campos para editar!" })
         }
+        
         // Atualiza o post
         const updatedPost = await Posts.findByIdAndUpdate(postId, {
             title: title || post?.title,
             description: description || post?.description
         }, { new: true })
 
-        return res.status(200).json({ updatedPost, message: "Post atualizado com sucesso!" })
+        if (!updatedPost) {
+            return res.status(400).json({ message: "Post não encontrado!" })
+        }   
+
+        return res.status(200).json({ message: "Post atualizado com sucesso!" })
     }
     catch (err) {
         console.log(err)
         return res.status(500).json({ message: "Erro ao atualizar post!" })
+    }
+}
+
+export const exclude = async (req: Request, res: Response) => {
+    try {
+        const postId = req.params.postId
+        const userId = req.params.userId
+
+        const post = await Posts.findById(postId)
+        const user = await Users.findById({ _id: userId })
+
+        if (!post || !user) {
+            return res.status(400).json({ message: "Post ou usuario não encontrado!" })
+        }
+
+        const authorPost = post?.authorID?.toString()
+
+        if(authorPost !== userId) {
+            return res.status(400).json({ message: "Usuario não autorizado!" })
+        }
+
+        await Posts.findByIdAndDelete(postId)
+
+        return res.status(200).json({ message: "Post excluido com sucesso!" })
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).json({ message: "Erro ao excluir post!" })
     }
 }
 

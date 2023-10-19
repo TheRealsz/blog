@@ -97,13 +97,13 @@ export const logout = async (req: Request, res: Response) => {
     try {
         // Recuperando o Id do usuario
         const userId = req.params.userId
-
+        
         // Verifica se veio algo no body
         if (!userId) {
-            return res.status(400).json({ message: 'Usuario não encontrado!' });
+            return res.status(400).json({ message: 'Usuario não identificado!' });
         }
-
-        // Tenando encontrar o usuario pelo id
+        
+        // Tentando encontrar o usuario pelo id
         const user = await Users.findOne({ _id: userId })
 
         // Tratativa caso nao encontre o usuario
