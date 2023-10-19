@@ -2,10 +2,12 @@ import axios from "axios"
 import { FormEvent, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { AiOutlineEye } from "react-icons/ai"
+import { useNavigate } from "react-router-dom"
 
 const SignUp = () => {
     const [viewPassword, setViewPassword] = useState(false)
     const ref = useRef<HTMLFormElement | null>(null)
+    const navigate = useNavigate()
 
     const handleSignUp = async (e: FormEvent) => {
         e.preventDefault()
@@ -26,6 +28,7 @@ const SignUp = () => {
             })
             toast.success(response.data.message)
             SignUpForm.reset()
+            navigate("/")
         }
         catch (err) {
             if (axios.isAxiosError(err)) {
@@ -33,6 +36,9 @@ const SignUp = () => {
                 const msgError = errorResponse.data.message
                 if (errorResponse) {
                     if (errorResponse.status === 400) {
+                        toast.error(msgError);
+                    }
+                    if (errorResponse.status === 500) {
                         toast.error(msgError);
                     }
                 } else {

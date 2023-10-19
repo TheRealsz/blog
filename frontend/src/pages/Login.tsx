@@ -25,11 +25,29 @@ const Login = () => {
             })
             const token = response.data.userWithoutPassword.token
             setTokenOnStorage(token)
+            toast.success(response.data.message)
             
         }
         catch (err) {
-            console.log(err);
-            
+            if (axios.isAxiosError(err)) {
+                const errorResponse = err.response as IErrorResponse;
+                const msgError = errorResponse.data.message
+                if (errorResponse) {
+                    if (errorResponse.status === 400) {
+                        toast.error(msgError);
+                    }
+                    if (errorResponse.status === 404) {
+                        toast.error(msgError);
+                    }
+                    if (errorResponse.status === 500) {
+                        toast.error(msgError);
+                    }
+                } else {
+                    console.log('Erro desconhecido:', err);
+                }
+            } else {
+                console.log('Erro desconhecido:', err);
+            }
         }
     }
     
@@ -49,7 +67,7 @@ const Login = () => {
                             </div>
                             <div className="flex text-center flex-col gap-1 xl:text-left">
                                 <span className="text-xl font-semibold text-gray-800 2xl:text-2xl">Bem vindo ao TheReal!</span>
-                                <p className="text-black/50 font-light 2xl:text-lg">Faça o login ou cadastre-se para saber de tudo sobre o mundo da tecnologia e da programação em nosos site!</p>
+                                <p className="text-black/50 font-light 2xl:text-lg">Faça o login ou cadastre-se para saber de tudo sobre o mundo da tecnologia e da programação em nosso site!</p>
                             </div>
                         </div>
                         <form className="w-full flex" name="SignUpForm" ref={ref} onSubmit={handleLogin}>
@@ -61,7 +79,7 @@ const Login = () => {
                                 <div className='w-full flex flex-col'>
                                     <label className='2xl:text-lg'>Senha</label>
                                     <div className='w-full flex items-center justify-between text-center'>
-                                        <input name='password' type={`${viewPassword == false ? "password" : "text"}`} placeholder='Insira sua senha' className='peer pl-3 py-1.5 w-11/12 rounded-l-md border-gray-300 border-solid border border-r-0 focus:border-purple-heart-400 outline-none 2xl:py-2' />
+                                        <input required name='password' type={`${viewPassword == false ? "password" : "text"}`} placeholder='Insira sua senha' className='peer pl-3 py-1.5 w-11/12 rounded-l-md border-gray-300 border-solid border border-r-0 focus:border-purple-heart-400 outline-none 2xl:py-2' />
                                         <button type='button' className='bg-white h-full w-1/12 rounded-r-md border-l-0 border border-solid flex justify-center items-center border-gray-300 peer-focus:border-purple-heart-400 cursor-default' onClick={() => setViewPassword(!viewPassword)}><AiOutlineEye className='text-slate-500 cursor-pointer' /></button>
                                     </div>
                                     <div className="pt-1 text-xs text-slate-800 flex w-full justify-between items-center font-light">

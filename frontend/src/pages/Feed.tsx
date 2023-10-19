@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai';
 import ScrollToTop from '../components/ScrollToTop';
-import Card from '../components/Card';
+import Card from '../components/Card/Card';
 
 
 const Feed = () => {
