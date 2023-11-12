@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        @apply bg-dark30
+    }
+}
