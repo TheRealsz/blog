@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Lexend_Deca } from 'next/font/google'
 import './globals.css'
 import { ReactNode } from 'react'
+import Providers from '@/components/Providers/Providers'
 
 const lexendDeca = Lexend_Deca({ subsets: ['latin'] })
 
@@ -17,7 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={lexendDeca.className}>{children}</body>
+      <body className={lexendDeca.className}>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   )
 }
