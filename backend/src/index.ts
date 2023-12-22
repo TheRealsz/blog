@@ -5,7 +5,7 @@ import { main } from './db/conn'
 import router from './routes/router';
 
 const app = express();
-
+const port = 3333
 app.use(cors())
 
 // Permite a comunicação de dados via json
@@ -21,6 +21,6 @@ const routes = router
 // todas as rotas que partem de /api vem do routes
 app.use("/api", routes)
 
-app.listen(3000, function () {
-    
+app.listen(port, function () {
+    console.log("Working on:", port)
 });
