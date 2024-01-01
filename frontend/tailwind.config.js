@@ -26,6 +26,9 @@ export default {
         dark40: '#252529',
         dark50: '#AFABB6',
       },
+      boxShadow: { 
+        'test': "rgba(210, 210, 210, 0.2) 0px 3px 15px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
+      }
     },
   },
   plugins: [],
