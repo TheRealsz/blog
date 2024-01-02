@@ -1,39 +1,34 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { AiOutlineEye } from 'react-icons/ai'
-import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import axios from "axios"
 import { catchError } from "../../../../utils/catchError"
 import toast, { Toaster } from "react-hot-toast"
-
-// Schema = Representacao de uma estrutura de dados
-const SignInFormSchema = z.object({
-    email: z
-        .string()
-        .email("Formato de e-mail inválido"),
-    password: z
-        .string()
-        .min(10, 'Senha deve conter no mínimo 10 caracteres')
-        .max(50, 'Senha deve conter no máximo 50 caracteres')
-}).required()
-
-type SignInFormProps = z.infer<typeof SignInFormSchema>
+import { signInFormSchema } from '../../../../schema/SignInForm.schema'
+import SignInFormType from '../../../../schema/SignInForm.schema'
+import userRequest from "../../../../services/api/users"
 
 const SignInForm = () => {
     const [viewPassword, setViewPassword] = useState(false)
     const {
         register,
         handleSubmit,
-        formState: { errors }
-    } = useForm<SignInFormProps>({
-        resolver: zodResolver(SignInFormSchema)
+        formState: { errors },
+        reset
+    } = useForm<SignInFormType>({
+        resolver: zodResolver(signInFormSchema)
     })
 
-    const handleSignIn = async (values: SignInFormProps) => {
+    const handleSignIn = async (credentials: SignInFormType) => {
         try {
-            const res = await axios.post('http://localhost:3000/api/user/login', values)
-            console.log(res)
+            const { data } = await userRequest.auth(credentials)
+            console.log(data)
+            toast.success(data.message, {
+                style: {
+                    background: '#333',
+                    color: '#fff',
+                },
+            })
         } catch (e) {
             toast.error(catchError(e) || 'Erro ao fazer login', {
                 style: {
@@ -42,6 +37,7 @@ const SignInForm = () => {
                 },
             })
         }
+        reset()
     }
 
     return (
@@ -58,7 +54,7 @@ const SignInForm = () => {
                         <label htmlFor="password" className='2xl:text-lg'>Senha</label>
                         <div className='w-full flex items-center justify-between text-center'>
                             <input {...register('password')} type={`${!viewPassword ? "password" : "text"}`} placeholder='Insira sua senha' className='peer bg-dark40 text-dark50 pl-3 py-1.5 w-11/12 rounded-l-md border-solid border border-dark40 focus:border-primary-900 border-r-0 outline-none 2xl:py-2' />
-                            <button type='button' className='bg-dark40 h-full w-1/12 rounded-r-md border-l-0 border-solid border border-dark40 flex justify-center items-center peer-focus:border-primary-900 outline-none cursor-default' onClick={() => setViewPassword(!viewPassword)}><AiOutlineEye className='text-slate-500 cursor-pointer hover:text-primary-300 transition-all' /></button>
+                            <button type='button' className='bg-dark40 h-full w-1/12 rounded-r-md border-l-0 border-solid border border-dark40 flex justify-center items-center peer-focus:border-primary-900 outline-none cursor-default' onClick={() => setViewPassword(!viewPassword)}><AiOutlineEye className={`cursor-pointer hover:text-primary-300 transition-all ${viewPassword ? "text-primary-500" : "text-slate-500"}`} /></button>
                         </div>
                         {errors.password && <span className='text-red-500 text-sm'>{errors.password.message}</span>}
                         <div className="pt-1 text-xs flex w-full justify-end items-center font-light">

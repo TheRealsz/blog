@@ -12,17 +12,17 @@ const SignUpForm = () => {
             <div className="w-full flex flex-col gap-4">
                 <div className='w-full flex flex-col'>
                     <label className='2xl:text-lg'>Nome completo</label>
-                    <input required name="fullname" type="text" placeholder="Insira seu nome completo" className='bg-dark30 text-dark50 px-3 py-1.5 rounded-md border-solid border border-dark40 focus:border-primary-900 outline-none 2xl:py-2' />
+                    <input required name="fullname" type="text" placeholder="Insira seu nome completo" className='bg-dark40 text-dark50 px-3 py-1.5 rounded-md border-solid border border-dark40 focus:border-primary-900 outline-none 2xl:py-2' />
                 </div>
                 <div className='w-full flex flex-col'>
                     <label className='2xl:text-lg'>Email</label>
-                    <input required name="email" type="email" placeholder="Insira seu email" className='bg-dark30 text-dark50 px-3 py-1.5 rounded-md border-solid border border-dark40 focus:border-primary-900 outline-none 2xl:py-2' />
+                    <input required name="email" type="email" placeholder="Insira seu email" className='bg-dark40 text-dark50 px-3 py-1.5 rounded-md border-solid border border-dark40 focus:border-primary-900 outline-none 2xl:py-2' />
                 </div>
                 <div className='w-full flex flex-col'>
                     <label className='2xl:text-lg'>Senha</label>
                     <div className='w-full flex items-center justify-between text-center'>
-                        <input required name='password' type={`${!viewPassword ? "password" : "text"}`} placeholder='Insira sua senha' className='peer bg-dark30 text-dark50 pl-3 py-1.5 w-11/12 rounded-l-md border-solid border border-dark40 focus:border-primary-900 border-r-0 outline-none 2xl:py-2' />
-                        <button type='button' className='bg-dark30 h-full w-1/12 rounded-r-md border-l-0 border-solid border border-dark40 flex justify-center items-center peer-focus:border-primary-900 cursor-default' onClick={() => setViewPassword(!viewPassword)}><AiOutlineEye className='text-slate-500 cursor-pointer hover:text-primary-300 transition-all' /></button>
+                        <input required name='password' type={`${!viewPassword ? "password" : "text"}`} placeholder='Insira sua senha' className='peer bg-dark40 text-dark50 pl-3 py-1.5 w-11/12 rounded-l-md border-solid border border-dark40 focus:border-primary-900 border-r-0 outline-none 2xl:py-2' />
+                        <button type='button' className='bg-dark40 h-full w-1/12 rounded-r-md border-l-0 border-solid border border-dark40 flex justify-center items-center peer-focus:border-primary-900 outline-none cursor-default' onClick={() => setViewPassword(!viewPassword)}><AiOutlineEye className={`cursor-pointer hover:text-primary-300 transition-all ${viewPassword ? "text-primary-500" : "text-slate-500"}`} /></button>
                     </div>
                 </div>
                 <div className="w-full pt-6">
