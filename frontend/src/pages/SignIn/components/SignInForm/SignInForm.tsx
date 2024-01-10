@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { signInFormSchema } from '../../../../schema/SignInForm.schema'
 import SignInFormType from '../../../../schema/SignInForm.schema'
 import userRequest from "../../../../services/api/users"
+import { useAuth } from "../../../../context/AuthContext"
 
 const SignInForm = () => {
     const [viewPassword, setViewPassword] = useState(false)
@@ -18,17 +19,20 @@ const SignInForm = () => {
     } = useForm<SignInFormType>({
         resolver: zodResolver(signInFormSchema)
     })
+    const { setUser, setSignIn } = useAuth()
 
     const handleSignIn = async (credentials: SignInFormType) => {
         try {
             const { data } = await userRequest.auth(credentials)
-            console.log(data)
             toast.success(data.message, {
                 style: {
                     background: '#333',
                     color: '#fff',
                 },
             })
+            setUser(data.userWithoutPassword)
+            setSignIn(true)
+            localStorage.setItem('token', data.userWithoutPassword.token)
         } catch (e) {
             toast.error(catchError(e) || 'Erro ao fazer login', {
                 style: {
