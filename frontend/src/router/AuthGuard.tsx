@@ -7,12 +7,13 @@ interface AuthGuardProps {
 
 export function AuthGuard({ isPrivate }: AuthGuardProps) {
     const { signIn } = useAuth()
+    const token = localStorage.getItem('token')
 
-    if (!signIn && isPrivate) {
+    if ((!token && !signIn) && isPrivate) {
         return <Navigate to="/signin" replace />
     }
 
-    if (signIn && !isPrivate) {
+    if ((token && signIn) && !isPrivate) {
         return <Navigate to="/" replace />
     }
 

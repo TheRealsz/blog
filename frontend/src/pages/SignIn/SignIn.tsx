@@ -22,7 +22,7 @@ const SignIn = () => {
                         <div className="absolute bottom-5 2xl:static 2xl:pt-7">
                             <div className="w-full flex justify-center items-center gap-1 2xl:text-lg">
                                 <span className="text-dark50">Não tem uma conta?</span>
-                                <a className="text-primary-500 cursor-pointer">Cadastre-se</a>
+                                <a className="text-primary-500 cursor-pointer" href="/signup">Cadastre-se</a>
                             </div>
                         </div>
                     </div>

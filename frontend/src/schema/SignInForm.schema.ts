@@ -10,6 +10,7 @@ export const signInFormSchema = z.object({
         .max(50, 'Senha deve conter no máximo 50 caracteres')
 }).required()
 
+// Inferindo o type a partir do que declarei no schema
 type SignInFormType = z.infer<typeof signInFormSchema>
 
 export default SignInFormType
