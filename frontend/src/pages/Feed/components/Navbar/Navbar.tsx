@@ -1,5 +1,5 @@
-import { IoIosLogOut } from "react-icons/io";
 import TheRealIcon from "../../../../components/svg/TheRealIcon"
+import SignOut from "./SignOut/SignOut";
 
 const Navbar = () => {
     return (
@@ -8,10 +8,7 @@ const Navbar = () => {
                 <div className="flex justify-between items-center w-full xl:w-[76rem]">
                     <div className="rounded-full border-2 border-dark40 flex items-center justify-center w-10 h-10 cursor-pointer md:w-12 md:h-12 md:border-2 xl:w-14 xl:h-14">RD</div>
                     <TheRealIcon color="#FFF" classname="w-24 h-6 md:w-32 xl:w-36" />
-                    <div className="flex items-center gap-1.5 text-red-500 cursor-pointer">
-                        <span className="hidden md:block xl:text-lg">Sair</span>
-                        <IoIosLogOut className="text-2xl xl:text-3xl" />
-                    </div>
+                    <SignOut />
                 </div>
             </div>
         </>

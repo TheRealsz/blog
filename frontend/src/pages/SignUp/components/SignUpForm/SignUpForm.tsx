@@ -33,7 +33,7 @@ const SignUpForm = () => {
                 navigate('/signin')
             }, 2000)
         } catch (e) {
-            toast.error(catchError(e) || 'Erro ao fazer login', {
+            toast.error(catchError(e) || 'Erro ao cadastrar novo usuario', {
                 style: {
                     background: '#333',
                     color: '#fff',

@@ -28,6 +28,9 @@ export default {
       },
       boxShadow: { 
         'test': "rgba(210, 210, 210, 0.2) 0px 3px 15px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
+      },
+      backgroundImage: {
+        'banner-mobile': "url('/src/assets/bannerMobile.png')",
       }
     },
   },

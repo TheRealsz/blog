@@ -8,6 +8,8 @@ import { signInFormSchema } from '../../../../schema/SignInForm.schema'
 import SignInFormType from '../../../../schema/SignInForm.schema'
 import userRequest from "../../../../services/api/users"
 import { useAuth } from "../../../../context/AuthContext"
+import { setTokenOnStorage } from "../../../../utils/tokenStorage"
+import { setCurrentUser } from "../../../../utils/userStorage"
 
 const SignInForm = () => {
     const [viewPassword, setViewPassword] = useState(false)
@@ -19,7 +21,7 @@ const SignInForm = () => {
     } = useForm<SignInFormType>({
         resolver: zodResolver(signInFormSchema)
     })
-    const { setUser, setSignIn } = useAuth()
+    const { setSignIn } = useAuth()
 
     const handleSignIn = async (credentials: SignInFormType) => {
         try {
@@ -30,9 +32,14 @@ const SignInForm = () => {
                     color: '#fff',
                 },
             })
-            setUser(data.userWithoutPassword)
             setSignIn(true)
-            localStorage.setItem('token', data.userWithoutPassword.token)
+            setTokenOnStorage(data.userWithoutPassword.token)
+            const user = {
+                _id: data.userWithoutPassword._id,
+                fullname: data.userWithoutPassword.fullname,
+                email: data.userWithoutPassword.email,
+            }
+            setCurrentUser(user)
         } catch (e) {
             toast.error(catchError(e) || 'Erro ao fazer login', {
                 style: {
