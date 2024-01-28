@@ -14,19 +14,19 @@ const SignIn = () => {
                                 </div>
                                 <div className="flex text-center flex-col gap-1 xl:text-left">
                                     <span className="text-xl font-semibold 2xl:text-2xl">Bem vindo ao TheReal!</span>
-                                    <p className="font-normal text-dark50 2xl:text-lg">Faça o login ou cadastre-se para saber de tudo sobre o mundo da tecnologia e da programação em nosso site!</p>
+                                    <p className="font-normal text-dark-50 2xl:text-lg">Faça o login ou cadastre-se para saber de tudo sobre o mundo da tecnologia e da programação em nosso site!</p>
                                 </div>
                             </div>
                             <SignInForm />
                         </div>
                         <div className="absolute bottom-5 2xl:static 2xl:pt-7">
                             <div className="w-full flex justify-center items-center gap-1 2xl:text-lg">
-                                <span className="text-dark50">Não tem uma conta?</span>
-                                <a className="text-primary-500 cursor-pointer" href="/signup">Cadastre-se</a>
+                                <span className="text-dark-50">Não tem uma conta?</span>
+                                <a className="text-main-500 cursor-pointer" href="/signup">Cadastre-se</a>
                             </div>
                         </div>
                     </div>
-                    <aside className="hidden w-1/2 h-full bg-gradient-to-tl from-primary-600 to-primary-400 lg:flex justify-center items-center" />
+                    <aside className="hidden w-1/2 h-full bg-gradient-to-tl from-main-600 to-main-400 lg:flex justify-center items-center" />
                 </div>
             </div>
         </>
