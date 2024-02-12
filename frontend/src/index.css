@@ -73,7 +73,6 @@
     color: #FFF;
     scroll-behavior: smooth;
     @apply bg-dark-10;
-    --removed-body-scroll-bar-size: 5px !important;
   }
 
   h3 {
