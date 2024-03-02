@@ -97,12 +97,12 @@ export const logout = async (req: Request, res: Response) => {
     try {
         // Recuperando o Id do usuario
         const userId = req.params.userId
-        
+
         // Verifica se veio algo no body
         if (!userId) {
             return res.status(400).json({ message: 'Usuario não identificado!' });
         }
-        
+
         // Tentando encontrar o usuario pelo id
         const user = await Users.findOne({ _id: userId })
 
@@ -153,7 +153,12 @@ export const edit = async (req: Request, res: Response) => {
         user.fullname = newFullname
         user.save()
 
-        return res.status(200).json({ message: "Nome alterado com sucesso!" })
+        const userWithoutPassword = {
+            ...user.toObject(),
+            password: undefined,
+        }
+
+        return res.status(200).json({ userWithoutPassword, message: "Nome alterado com sucesso!" })
 
     }
     catch (err) {

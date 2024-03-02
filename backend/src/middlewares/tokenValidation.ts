@@ -11,10 +11,9 @@ export const tokenValidation = async (req: Request, res: Response, next: NextFun
         const token = authorizationHeader?.split(' ')[1]
         
         // Verificando se existe algo no Barear
-        if (!token) {
+        if (!token || token == null) {
             return res.status(401).json({ message: 'Token de autorização ausente' });
         }
-        
         // Comparando com o que se tem no .env  
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload
 
@@ -38,6 +37,10 @@ export const tokenValidation = async (req: Request, res: Response, next: NextFun
         next()
     }
     catch (err) {
+
+        if (err instanceof jwt.TokenExpiredError) {
+            return res.status(401).json({ message: "Token de autorização expirado" });
+        }
         console.log(err)
         return res.status(500).json({ message: "Erro ao resgatar token!" })
     }
