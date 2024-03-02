@@ -10,8 +10,10 @@ import userRequest from "../../../../services/api/users"
 import { useAuth } from "../../../../context/AuthContext"
 import { setTokenOnStorage } from "../../../../utils/tokenStorage"
 import { setCurrentUser } from "../../../../utils/userStorage"
+import { useUser } from "@/context/UserContext"
 
 const SignInForm = () => {
+    const  { setUser } = useUser()
     const [viewPassword, setViewPassword] = useState(false)
     const {
         register,
@@ -40,6 +42,7 @@ const SignInForm = () => {
                 email: data.userWithoutPassword.email,
             }
             setCurrentUser(user)
+            setUser(user)
         } catch (e) {
             toast.error(catchError(e) || 'Erro ao fazer login', {
                 style: {

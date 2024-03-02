@@ -1,12 +1,8 @@
-interface IUser {
-    email: string;
-    fullname: string;
-    _id: string;
-}
+import { IUser } from "@/types/user";
 
 type IUserInfo = keyof IUser;
 
-export const setCurrentUser = (user: IUser) => {
+export const setCurrentUser = (user: IUser | null) => {
     localStorage.setItem('user', JSON.stringify(user));
 }
 

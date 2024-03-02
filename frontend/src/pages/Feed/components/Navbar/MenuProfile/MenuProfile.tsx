@@ -1,4 +1,3 @@
-import { getUserInfo } from "@/utils/userStorage";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,9 +8,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import EditNameModal from "./EditNameModal/EditNameModal";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { useUser } from "@/context/UserContext";
 
 const MenuProfile = () => {
-    const fullname = getUserInfo("fullname")
+    const { user } = useUser()
+    const fullname = user?.fullname || ""
     const fullnameFormatted = fullname
         .split(" ")
         .map((name: string) => name.charAt(0))
