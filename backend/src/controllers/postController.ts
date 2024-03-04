@@ -14,7 +14,7 @@ export const create = async (req: Request , res: Response) => {
         const user = await Users.findOne({ _id: authorID })
 
         if (!user) {
-            return res.status(400).json({ message: "Usuario não encontrado!" })
+            return res.status(404).json({ message: "Usuario não encontrado!" })
         }
 
         const {
@@ -61,17 +61,21 @@ export const update = async (req: Request, res: Response) => {
         const postId = req.params.postId
         const userId = req.params.userId
 
+        if (!postId || !userId) {
+            return res.status(400).json({ message: "Post ou usuario não encontrado!" })
+        }
+
         const post = await Posts.findById(postId)
         const user = await Users.findById({ _id: userId })
 
         if (!post || !user) {
-            return res.status(400).json({ message: "Post ou usuario não encontrado!" })
+            return res.status(404).json({ message: "Post ou usuario não encontrado!" })
         }
 
         const authorPost = post?.authorID?.toString()
 
         if(authorPost !== userId) {
-            return res.status(400).json({ message: "Usuario não autorizado!" })
+            return res.status(401).json({ message: "Usuario não autorizado!" })
         }
 
         const {
@@ -91,7 +95,7 @@ export const update = async (req: Request, res: Response) => {
         }, { new: true })
 
         if (!updatedPost) {
-            return res.status(400).json({ message: "Post não encontrado!" })
+            return res.status(404).json({ message: "Post não encontrado!" })
         }   
 
         return res.status(200).json({ message: "Post atualizado com sucesso!" })
@@ -107,17 +111,21 @@ export const exclude = async (req: Request, res: Response) => {
         const postId = req.params.postId
         const userId = req.params.userId
 
+        if (!postId || !userId) {
+            return res.status(400).json({ message: "Post ou usuario não encontrado!" })
+        }
+
         const post = await Posts.findById(postId)
         const user = await Users.findById({ _id: userId })
 
         if (!post || !user) {
-            return res.status(400).json({ message: "Post ou usuario não encontrado!" })
+            return res.status(404).json({ message: "Post ou usuario não encontrado!" })
         }
 
         const authorPost = post?.authorID?.toString()
 
         if(authorPost !== userId) {
-            return res.status(400).json({ message: "Usuario não autorizado!" })
+            return res.status(401).json({ message: "Usuario não autorizado!" })
         }
 
         await Posts.findByIdAndDelete(postId)

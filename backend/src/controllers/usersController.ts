@@ -64,7 +64,7 @@ export const login = async (req: Request, res: Response) => {
 
         // se nao existir usuario com email existente ou a senha for diferente da que está no banco
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(404).json({ message: "Email ou senha incorreto" })
+            return res.status(400).json({ message: "Email ou senha incorreto" })
         }
 
         // Criando token juntamente do email
@@ -100,7 +100,7 @@ export const logout = async (req: Request, res: Response) => {
 
         // Verifica se veio algo no body
         if (!userId) {
-            return res.status(400).json({ message: 'Usuario não identificado!' });
+            return res.status(404).json({ message: 'Usuario não identificado!' });
         }
 
         // Tentando encontrar o usuario pelo id
@@ -108,7 +108,7 @@ export const logout = async (req: Request, res: Response) => {
 
         // Tratativa caso nao encontre o usuario
         if (!user) {
-            return res.status(400).json({ message: 'Usuario não identificado!' });
+            return res.status(404).json({ message: 'Usuario não identificado!' });
         }
 
         // Modificando o token do usuario para undefined
@@ -130,7 +130,7 @@ export const edit = async (req: Request, res: Response) => {
 
         // Verifica se veio algo no body
         if (!userId) {
-            return res.status(400).json({ message: 'Usuario não encontrado!' });
+            return res.status(404).json({ message: 'Usuario não encontrado!' });
         }
 
         // Buscando usuario pelo ID
@@ -138,7 +138,7 @@ export const edit = async (req: Request, res: Response) => {
 
         // Verificando se retornou algum usuario
         if (!user) {
-            return res.status(400).json({ message: 'Usuario não encontrado!' });
+            return res.status(404).json({ message: 'Usuario não encontrado!' });
         }
 
         // Pegando as informações do body
@@ -172,13 +172,13 @@ export const changePassword = async (req: Request, res: Response) => {
         const userId = req.params.userId
 
         if (!userId) {
-            return res.status(400).json({ message: 'Usuario não encontrado!' });
+            return res.status(404).json({ message: 'Usuario não encontrado!' });
         }
 
         const user = await Users.findOne({ _id: userId })
 
         if (!user) {
-            return res.status(400).json({ message: 'Usuario não encontrado!' });
+            return res.status(404).json({ message: 'Usuario não encontrado!' });
         }
 
         const { newPassword } = req.body
