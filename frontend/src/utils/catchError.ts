@@ -8,6 +8,9 @@ export const catchError = (e: any) => {
         const message = serverError.message;
         if (error.response.status === 401) {
             removeTokenFromStorage()
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000)
         }
         return message;
     }

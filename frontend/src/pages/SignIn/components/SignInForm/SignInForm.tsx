@@ -28,12 +28,6 @@ const SignInForm = () => {
     const handleSignIn = async (credentials: SignInFormType) => {
         try {
             const { data } = await userRequest.auth(credentials)
-            toast.success(data.message, {
-                style: {
-                    background: '#333',
-                    color: '#fff',
-                },
-            })
             setSignIn(true)
             setTokenOnStorage(data.userWithoutPassword.token)
             const user = {

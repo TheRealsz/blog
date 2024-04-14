@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 interface AuthGuardProps {
@@ -6,15 +6,18 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ isPrivate }: AuthGuardProps) {
+    const navigate = useNavigate()
     const { signIn } = useAuth()
     const token = localStorage.getItem('token')
 
     if ((!token && !signIn) && isPrivate) {
-        return <Navigate to="/signin" replace />
+        navigate('/signin')
+        return 
     }
 
     if ((token && signIn) && !isPrivate) {
-        return <Navigate to="/" replace />
+        navigate('/')
+        return
     }
 
     return <Outlet />
