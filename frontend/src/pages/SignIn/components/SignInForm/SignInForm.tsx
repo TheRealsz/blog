@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { AiOutlineEye } from 'react-icons/ai'
+import { AiOutlineEye, AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { catchError } from "../../../../utils/catchError"
 import toast, { Toaster } from "react-hot-toast"
@@ -13,7 +13,7 @@ import { setCurrentUser } from "../../../../utils/userStorage"
 import { useUser } from "@/context/UserContext"
 
 const SignInForm = () => {
-    const  { setUser } = useUser()
+    const { setUser } = useUser()
     const [viewPassword, setViewPassword] = useState(false)
     const {
         register,
@@ -24,8 +24,10 @@ const SignInForm = () => {
         resolver: zodResolver(signInFormSchema)
     })
     const { setSignIn } = useAuth()
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSignIn = async (credentials: SignInFormType) => {
+        setIsLoading(true)
         try {
             const { data } = await userRequest.auth(credentials)
             setSignIn(true)
@@ -38,14 +40,12 @@ const SignInForm = () => {
             setCurrentUser(user)
             setUser(user)
         } catch (e) {
-            toast.error(catchError(e) || 'Erro ao fazer login', {
-                style: {
-                    background: '#333',
-                    color: '#fff',
-                },
-            })
+            catchError(e, "Erro ao fazer login")
         }
-        reset()
+        finally {
+            setIsLoading(false)
+            reset()
+        }
     }
 
     return (
@@ -70,7 +70,10 @@ const SignInForm = () => {
                         </div>
                     </div>
                     <div className="w-full pt-6">
-                        <button type="submit" className="w-full bg-main-500 py-2 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg">Entrar</button>
+                        <button disabled={isLoading} type="submit" className="w-full flex items-center justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
+                            {isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
+                            Entrar
+                        </button>
                     </div>
                 </div>
             </form>

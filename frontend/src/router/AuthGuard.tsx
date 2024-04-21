@@ -1,5 +1,7 @@
-import { Navigate, Outlet, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { getTokenFromStorage } from '@/utils/tokenStorage'
+import { useEffect } from 'react'
+import { useAuth } from '@/context/AuthContext'
 
 interface AuthGuardProps {
     isPrivate: boolean
@@ -8,17 +10,16 @@ interface AuthGuardProps {
 export function AuthGuard({ isPrivate }: AuthGuardProps) {
     const navigate = useNavigate()
     const { signIn } = useAuth()
-    const token = localStorage.getItem('token')
 
-    if ((!token && !signIn) && isPrivate) {
-        navigate('/signin')
-        return 
-    }
-
-    if ((token && signIn) && !isPrivate) {
-        navigate('/')
-        return
-    }
+    useEffect(() => {
+        const token = getTokenFromStorage()
+        if (isPrivate && !token) {
+            return navigate('/signin', { replace: true })
+        }
+        if (!isPrivate && token) {
+            return navigate('/', { replace: true })
+        }
+    }, [isPrivate, signIn, navigate])
 
     return <Outlet />
 }

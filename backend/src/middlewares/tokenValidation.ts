@@ -11,7 +11,7 @@ export const tokenValidation = async (req: Request, res: Response, next: NextFun
         const token = authorizationHeader?.split(' ')[1]
         
         // Verificando se existe algo no Barear
-        if (!token || token == null) {
+        if (!token || token == "null") {
             return res.status(401).json({ message: 'Token de autorização ausente' });
         }
         // Comparando com o que se tem no .env  

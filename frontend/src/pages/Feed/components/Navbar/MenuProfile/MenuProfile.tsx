@@ -10,6 +10,8 @@ import EditNameModal from "./EditNameModal/EditNameModal";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { useUser } from "@/context/UserContext";
 import ChangePasswordModal from "./ChangePasswordModal/ChangePasswordModal";
+import DeleteAccountModal from "./DeleteAccountModal/DeleteAccountModal";
+import { useState } from "react";
 
 const MenuProfile = () => {
     const { user } = useUser()
@@ -19,6 +21,8 @@ const MenuProfile = () => {
         .map((name: string) => name.charAt(0))
         .slice(0, 2)
         .join("");
+
+    const [openDeleteAccountModal, setOpenDeleteAccountModal] = useState(false)
 
     return (
         <DropdownMenu modal={false}>
@@ -40,11 +44,11 @@ const MenuProfile = () => {
                     </DialogTrigger>
                     <ChangePasswordModal />
                 </Dialog>
-                <Dialog>
+                <Dialog open={openDeleteAccountModal} onOpenChange={setOpenDeleteAccountModal}>
                     <DialogTrigger asChild>
-                        <DropdownMenuItem className="cursor-pointer focus:bg-red-500 focus:text-white" onSelect={(event) => event.preventDefault()}>Excluir conta</DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer text-red-600 focus:bg-red-600 focus:text-white" onSelect={(event) => event.preventDefault()}>Excluir conta</DropdownMenuItem>
                     </DialogTrigger>
-                    <ChangePasswordModal />
+                    <DeleteAccountModal setOpenDeleteAccountModal={setOpenDeleteAccountModal}/>
                 </Dialog>
             </DropdownMenuContent>
         </DropdownMenu>

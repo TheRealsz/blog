@@ -11,11 +11,6 @@ const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [signIn, setSignIn] = useState<boolean>(false);
 
-    useEffect(() => {
-        console.log('signIn', signIn);
-    }
-        , [signIn]);
-
     return (
         <AuthContext.Provider value={{ signIn, setSignIn }}>
             {children}

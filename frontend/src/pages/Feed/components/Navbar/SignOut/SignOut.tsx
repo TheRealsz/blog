@@ -15,12 +15,7 @@ const SignOut = () => {
       await userRequest.logout(user._id)
     }
     catch (e) {
-      toast.error(catchError(e) || 'Erro ao fazer logout', {
-        style: {
-          background: '#333',
-          color: '#fff',
-        },
-      })
+      catchError(e, "Erro ao sair")
     } finally {
       removeTokenFromStorage()
       removeCurrentUser()

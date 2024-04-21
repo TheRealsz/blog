@@ -8,8 +8,10 @@ import userRequest from "@/services/api/users"
 import { catchError } from "@/utils/catchError"
 import { getUserInfo } from "@/utils/userStorage"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 const ChangePasswordModal = () => {
 
@@ -21,8 +23,11 @@ const ChangePasswordModal = () => {
     } = useForm<ChangePasswordSchemaType>({
         resolver: zodResolver(changePasswordSchema)
     })
+    const [isLoading, setIsLoading] = useState(false)
+
 
     const handleChangePassword = async ({ newPassword }: ChangePasswordSchemaType) => {
+        setIsLoading(true)
         const id = getUserInfo("_id")
         try {
             const { data } = await userRequest.changePassword(id, newPassword)
@@ -33,14 +38,9 @@ const ChangePasswordModal = () => {
                 },
             })
         } catch (e) {
-            console.error(e)
-            toast.error(catchError(e) || 'Erro ao editar perfil', {
-                style: {
-                    background: '#333',
-                    color: '#fff',
-                },
-            })
+            catchError(e, "Erro ao trocar senha")
         } finally {
+            setIsLoading(false)
             reset()
         }
     }
@@ -57,7 +57,10 @@ const ChangePasswordModal = () => {
                         <input  {...register("newPassword")} type="password" className="w-full bg-dark-40 text-dark-50 p-2 rounded-md border-solid border border-dark-40 focus:border-main-900 outline-none 2xl:py-2" placeholder="Insira sua nova senha" />
                         {errors.newPassword && <span className="text-red-500 text-sm">{errors.newPassword.message}</span>}
                     </div>
-                    <button type="submit" className="w-full bg-main-500 py-2 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg">Salvar</button>
+                    <button disabled={isLoading} type="submit" className="w-full flex items-center justify-center gap-2 bg-main-500 py-2 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
+                        {isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
+                        Salvar
+                    </button>
                 </form>
             </div>
         </DialogContent>

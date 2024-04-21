@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { AiOutlineEye } from "react-icons/ai"
+import { AiOutlineEye, AiOutlineLoading3Quarters } from "react-icons/ai"
 import SignUpFormType, { signUpFormSchema } from "../../../../schema/SignUpForm.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { catchError } from "../../../../utils/catchError"
@@ -19,8 +19,10 @@ const SignUpForm = () => {
     } = useForm<SignUpFormType>({
         resolver: zodResolver(signUpFormSchema)
     })
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSignIn = async (credentials: SignUpFormType) => {
+        setIsLoading(true)
         try {
             const { data } = await userRequest.create(credentials)
             toast.success(data.message, {
@@ -33,14 +35,12 @@ const SignUpForm = () => {
                 navigate('/signin')
             }, 2000)
         } catch (e) {
-            toast.error(catchError(e) || 'Erro ao cadastrar novo usuario', {
-                style: {
-                    background: '#333',
-                    color: '#fff',
-                },
-            })
+            catchError(e, "Erro ao realizar o cadastro")
         }
-        reset()
+        finally {
+            setIsLoading(false)
+            reset()
+        }
     }
 
     return (
@@ -67,7 +67,10 @@ const SignUpForm = () => {
                         {errors.password && <span className='text-red-500 text-sm'>{errors.password.message}</span>}
                     </div>
                     <div className="w-full pt-6">
-                        <button type="submit" className="w-full bg-main-500 py-2 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg">Cadastrar</button>
+                        <button disabled={isLoading} type="submit" className="w-full flex items-center justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
+                            {isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
+                            Cadastrar
+                        </button>
                     </div>
                 </div>
             </form>

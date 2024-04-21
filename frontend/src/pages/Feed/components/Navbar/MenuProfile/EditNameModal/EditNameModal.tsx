@@ -48,12 +48,7 @@ const EditNameModal = ({ fullnameFormatted }: { fullnameFormatted: string }) => 
             setCurrentUser(user)
             setUser(user)
         } catch (e) {
-            toast.error(catchError(e) || 'Erro ao editar perfil', {
-                style: {
-                    background: '#333',
-                    color: '#fff',
-                },
-            })
+            catchError(e, "Erro ao editar perfil")
         } finally {
             setIsLoading(false)
             reset()
