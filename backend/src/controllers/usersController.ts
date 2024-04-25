@@ -2,6 +2,7 @@ import { Users } from "../models/users";
 import { Response, Request } from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { Posts } from "../models/posts";
 
 export const create = async (req: Request, res: Response) => {
     try {
@@ -216,9 +217,16 @@ export const exclude = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'Usuario não encontrado!' });
         }
 
+        
         const deleteUser = await Users.deleteOne({ _id: userId })
 
         if (!deleteUser) {
+            return res.status(400).json({ message: 'Erro ao excluir usuario!' });
+        }
+
+        const posts = await Posts.deleteMany({ authorID: userId })
+
+        if (!posts) {
             return res.status(400).json({ message: 'Erro ao excluir usuario!' });
         }
 
