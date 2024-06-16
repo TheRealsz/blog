@@ -1,12 +1,10 @@
 import PostCard from "./components/PostCard/PostCard"
 import Navbar from "./components/Navbar/Navbar";
 import HeaderFeed from "./components/HeaderFeed/HeaderFeed";
-import { Toaster } from "react-hot-toast";
 
 const Feed = () => {
     return (
         <>
-            <Toaster containerStyle={{zIndex: "99999"}} />
             <div className="w-full h-screen relative">
                 <Navbar />
                 <HeaderFeed />

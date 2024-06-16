@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export const catchError = (e: any, defaultErrorMessage: string) => {
+    console.error(e)
     const error = e as AxiosError
     if (error.response) {
         const serverError = error.response.data as AxiosError;
@@ -15,11 +16,6 @@ export const catchError = (e: any, defaultErrorMessage: string) => {
                 navigate('/signin')
             }, 1000)
         }
-        return toast.error(message || defaultErrorMessage, {
-            style: {
-                background: '#333',
-                color: '#fff',
-            },
-        })
+        return toast.error(message || defaultErrorMessage)
     }
 }

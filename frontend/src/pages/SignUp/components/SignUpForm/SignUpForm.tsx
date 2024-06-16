@@ -4,7 +4,7 @@ import { AiOutlineEye, AiOutlineLoading3Quarters } from "react-icons/ai"
 import SignUpFormType, { signUpFormSchema } from "../../../../schema/SignUpForm.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { catchError } from "../../../../utils/catchError"
-import toast, { Toaster } from "react-hot-toast"
+import toast from "react-hot-toast"
 import userRequest from "../../../../services/api/users"
 import { useNavigate } from "react-router-dom"
 
@@ -25,15 +25,8 @@ const SignUpForm = () => {
         setIsLoading(true)
         try {
             const { data } = await userRequest.create(credentials)
-            toast.success(data.message, {
-                style: {
-                    background: '#333',
-                    color: '#fff',
-                },
-            })
-            setTimeout(() => {
-                navigate('/signin')
-            }, 2000)
+            toast.success(data.message)
+            navigate('/signin')
         } catch (e) {
             catchError(e, "Erro ao realizar o cadastro")
         }
@@ -45,7 +38,6 @@ const SignUpForm = () => {
 
     return (
         <>
-            <Toaster />
             <form className="w-full flex" onSubmit={handleSubmit(handleSignIn)}>
                 <div className="w-full flex flex-col gap-4">
                     <div className='w-full flex flex-col'>
@@ -67,7 +59,7 @@ const SignUpForm = () => {
                         {errors.password && <span className='text-red-500 text-sm'>{errors.password.message}</span>}
                     </div>
                     <div className="w-full pt-6">
-                        <button disabled={isLoading} type="submit" className="w-full flex items-center justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
+                        <button disabled={isLoading} type="submit" className="w-full flex items-center font-semibold justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
                             {isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
                             Cadastrar
                         </button>

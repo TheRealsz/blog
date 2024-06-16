@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
 
 interface AuthContextProps {
     signIn: boolean;

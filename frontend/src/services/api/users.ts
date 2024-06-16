@@ -8,6 +8,7 @@ const userRequest = {
     logout: async (id: string) => api.post(`user/logout/${id}`),
     editProfile: async (id: string, fullname: string) => api.put(`user/edit/${id}`, { newFullname : fullname}),
     changePassword: async (id: string, newPassword: string) => api.put(`user/edit/password/${id}`, { newPassword: newPassword}),
+    deleteAccount: async (id: string) => api.delete(`user/delete/${id}`)
 }
 
 export default userRequest;

@@ -15,7 +15,12 @@ export const removeCurrentUser = () => {
     localStorage.removeItem('user');
 }
 
-export const getUserInfo = (info : IUserInfo) => {
+export const getUserInfo = (...info : IUserInfo[]) => {
     const user = getCurrentUser();
-    return user ? user[info] : null;
+    if (user === null) return null;
+    if (info.length === 0) return user;
+
+    const userInfo = info.map((info) => user[info]);
+
+    return userInfo
 }

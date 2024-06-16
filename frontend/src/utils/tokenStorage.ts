@@ -1,6 +1,6 @@
 const TOKEN_KEY = "token"
 
-export function setTokenOnStorage(token: string ){
+export function setTokenOnStorage(token: string) {
     localStorage.setItem(TOKEN_KEY, token)
 }
 
