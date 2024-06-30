@@ -1,10 +1,17 @@
+import { ArrowLeft } from "lucide-react"
 import TheRealIcon from "../../components/svg/TheRealIcon"
 import SignUpForm from "./components/SignUpForm/SignUpForm"
+import { useNavigate } from "react-router-dom"
 
 const SignUp = () => {
+    const navigate = useNavigate()
+
     return (
         <>
-            <div className="w-screen h-screen">
+            <div className="w-screen h-screen relative">
+                <div className="fixed rounded-full group hover:bg-main-400/20 p-2 top-4 left-2 hover: md:left-10 md:top-8 lg:left-6 transition-all">
+                    <ArrowLeft size={30} onClick={() => navigate("/signin")} className="cursor-pointer group-hover:text-main-400 transition-all" />
+                </div>
                 <div className="w-full h-full flex justify-center">
                     <div className="w-5/6 h-full flex flex-col justify-center items-center sm:w-7/12 md:w-5/12 lg:w-1/2 xl:items-start xl:pl-20 2xl:pl-28">
                         <div className="w-full flex flex-col gap-7 lg:w-8/12 xl:w-7/12">

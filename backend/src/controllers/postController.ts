@@ -48,7 +48,17 @@ export const create = async (req: Request , res: Response) => {
 export const getAll = async (req: Request, res: Response) => {
     try {
         const posts = await Posts.find()
-        return res.status(200).json(posts)
+        const formattedPosts = posts.map(post => {
+            return {
+                id: post._id,
+                title: post.title,
+                description: post.description,
+                authorID: post.authorID[0],
+                authorName: post.authorName,
+                createdAt: post.createdAt
+            }
+        })
+        return res.status(200).json(formattedPosts)
     }
     catch (err) {
         console.log(err)
