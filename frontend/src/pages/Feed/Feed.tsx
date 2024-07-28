@@ -6,9 +6,9 @@ import { catchError } from "@/utils/catchError";
 import postRequest from "@/services/api/posts";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Error } from "@/components/error";
+import { Error } from "@/components/Error";
 
-interface IPosts {
+export interface IPosts {
     authorID: string
     authorName: string
     createdAt: string
@@ -28,7 +28,7 @@ const Feed = () => {
             const { data } = await postRequest.getAllPost()
             setPosts(data)
         } catch (e) {
-            console.log(e)
+            console.error(e)
             catchError(e, "Erro ao buscar posts")
         } finally {
             setIsLoading(false)
@@ -65,12 +65,12 @@ const Feed = () => {
                                         post => (
                                             <PostCard
                                                 key={post.id}
-                                            // authorID={post.authorID}
-                                            // authorName={post.authorName}
-                                            // createdAt={post.createdAt}
-                                            // description={post.description}
-                                            // id={post.id}
-                                            // title={post.title}
+                                                authorID={post.authorID}
+                                                authorName={post.authorName}
+                                                createdAt={post.createdAt}
+                                                description={post.description}
+                                                id={post.id}
+                                                title={post.title}
                                             />
                                         )
                                     )
@@ -78,12 +78,6 @@ const Feed = () => {
                                     <Error />
 
                         }
-                        {/* <PostCard />
-                        <PostCard />
-                        <PostCard />
-                        <PostCard />
-                        <PostCard />
-                        <PostCard /> */}
                     </div>
                 </main>
                 <div className="md:hidden">
