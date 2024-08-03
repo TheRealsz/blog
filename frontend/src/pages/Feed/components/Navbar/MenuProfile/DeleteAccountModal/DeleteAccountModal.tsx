@@ -15,7 +15,7 @@ import toast from "react-hot-toast"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
 
-export default function DeleteAccountModal({ setOpenDeleteAccountModal }: { setOpenDeleteAccountModal: Dispatch<SetStateAction<boolean>> }) {
+const DeleteAccountModal = ({ setOpenDeleteAccountModal }: { setOpenDeleteAccountModal: Dispatch<SetStateAction<boolean>> }) => {
 
     const [userEmail, userId] = getUserInfo("email", "_id")
     const [isLoading, setIsLoading] = useState(false)
@@ -67,10 +67,10 @@ export default function DeleteAccountModal({ setOpenDeleteAccountModal }: { setO
                     </div>
                     <p className="text-center break-words text-xs text-white/60">Todas suas informaçoes como email, senha e posts serão excluidos permanentemente</p>
                     <div className="flex flex-col gap-4 md:flex-row">
-                        <button disabled={isLoading} className="border-dark-50 border font-semibold py-1.5 rounded-md flex-1 hover:border-dark-40 hover:bg-dark-30 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50" onClick={() => setOpenDeleteAccountModal(false)}>
+                        <button disabled={isLoading} className="border-dark-50 border font-medium py-1.5 rounded-md flex-1 hover:border-dark-40 hover:bg-dark-30 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50" onClick={() => setOpenDeleteAccountModal(false)}>
                             Cancelar
                         </button>
-                        <button type="submit" disabled={isLoading} className="bg-red-600 font-semibold py-1.5 rounded-md flex-1 flex items-center justify-center gap-2 hover:bg-red-700 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50">
+                        <button type="submit" disabled={isLoading} className="bg-red-600 font-medium py-1.5 rounded-md flex-1 flex items-center justify-center gap-2 hover:bg-red-700 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50">
                             {
                                 isLoading && <AiOutlineLoading3Quarters className="animate-spin" />
                             }
@@ -82,3 +82,5 @@ export default function DeleteAccountModal({ setOpenDeleteAccountModal }: { setO
         </DialogContent>
     )
 }
+
+export default DeleteAccountModal

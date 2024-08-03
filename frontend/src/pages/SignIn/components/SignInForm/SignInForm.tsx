@@ -68,7 +68,7 @@ const SignInForm = () => {
                         </div>
                     </div>
                     <div className="w-full pt-6">
-                        <button disabled={isLoading} type="submit" className="w-full flex font-semibold items-center justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
+                        <button disabled={isLoading} type="submit" className="w-full flex font-medium items-center justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
                             {isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
                             Entrar
                         </button>

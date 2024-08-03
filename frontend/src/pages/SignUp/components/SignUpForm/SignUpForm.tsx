@@ -59,7 +59,7 @@ const SignUpForm = () => {
                         {errors.password && <span className='text-red-500 text-sm'>{errors.password.message}</span>}
                     </div>
                     <div className="w-full pt-6">
-                        <button disabled={isLoading} type="submit" className="w-full flex items-center font-semibold justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
+                        <button disabled={isLoading} type="submit" className="w-full flex items-center font-medium justify-center gap-2 bg-main-500 py-3 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
                             {isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
                             Cadastrar
                         </button>

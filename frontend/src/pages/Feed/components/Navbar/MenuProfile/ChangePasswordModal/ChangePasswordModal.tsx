@@ -52,7 +52,7 @@ const ChangePasswordModal = () => {
                         <input  {...register("newPassword")} type="password" className="w-full bg-dark-40 text-dark-50 p-2 rounded-md border-solid border border-dark-40 focus:border-main-900 outline-none 2xl:py-2" placeholder="Insira sua nova senha" />
                         {errors.newPassword && <span className="text-red-500 text-sm">{errors.newPassword.message}</span>}
                     </div>
-                    <button disabled={isLoading} type="submit" className="w-full flex font-semibold items-center justify-center gap-2 bg-main-500 py-2 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
+                    <button disabled={isLoading} type="submit" className="w-full flex font-medium items-center justify-center gap-2 bg-main-500 py-2 rounded-md text-white hover:bg-main-600 transition-all outline-none 2xl:text-lg disabled:opacity-60">
                         {isLoading && <AiOutlineLoading3Quarters className="animate-spin" />}
                         Salvar
                     </button>
