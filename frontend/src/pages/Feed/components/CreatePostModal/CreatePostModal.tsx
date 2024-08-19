@@ -7,26 +7,46 @@ import {
     DialogDescription
 } from "@/components/ui/dialog"
 import CreatePostType, { createPostSchema } from "@/schema/CreatePost.schema"
+import postRequest from "@/services/api/posts"
+import { catchError } from "@/utils/catchError"
+import { getUserInfo } from "@/utils/userStorage"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
-const CreatePostModal = () => {
+interface ICreatePostModal {
+    getAllPosts: () => Promise<void>
+}
 
-    const [isLoading, setIsLoading] = useState()
+const CreatePostModal = ({ getAllPosts }: ICreatePostModal) => {
+    const userId = getUserInfo("_id")
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset
     } = useForm<CreatePostType>({
         resolver: zodResolver(createPostSchema)
     })
 
-    const handleCreatePost = () => {
-        console.log("oi")
+    const handleCreatePost = async (createPostValues: CreatePostType) => {
+        setIsLoading(true)
+
+        try {
+            const { data } = await postRequest.createPost(userId, createPostValues)
+            toast.success(data.message)
+            reset()
+            getAllPosts()
+        } catch (e) {
+            catchError(e, "Erro ao criar post")
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (

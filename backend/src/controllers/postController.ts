@@ -58,7 +58,12 @@ export const getAll = async (req: Request, res: Response) => {
                 createdAt: post.createdAt
             }
         })
-        return res.status(200).json(formattedPosts)
+
+        const sortedPostToNewest = formattedPosts.sort((a, b) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+
+        return res.status(200).json(sortedPostToNewest)
     }
     catch (err) {
         console.log(err)

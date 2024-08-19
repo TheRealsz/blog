@@ -46,7 +46,7 @@ const Feed = () => {
                 <HeaderFeed />
                 <main className="flex py-10 px-6 flex-col items-center gap-10 xl:py-14">
                     <div className="hidden md:flex md:justify-end w-full xl:w-[76rem]">
-                        <CreatePostModal />
+                        <CreatePostModal getAllPosts={getAllPosts} />
                     </div>
                     <div className="flex flex-col gap-10 w-full items-center">
                         {
@@ -81,7 +81,7 @@ const Feed = () => {
                     </div>
                 </main>
                 <div className="md:hidden">
-                    <CreatePostModal />
+                    <CreatePostModal getAllPosts={getAllPosts} />
                 </div>
             </div>
         </>

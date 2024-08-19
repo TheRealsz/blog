@@ -22,7 +22,7 @@ const PostCard = ({ authorName, createdAt, description, title }: IPosts) => {
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl font-medium text-ellipsis xl:text-2xl">{title}</h3>
-                        <p className="text-dark-50 text-sm line-clamp-6 font-medium leading-6 md:text-base xl:text-xl xl:leading-8">{description}</p>
+                        <p className="text-dark-50 text-sm line-clamp-5 font-medium leading-6 md:text-base xl:text-xl xl:leading-8 xl:line-clamp-4">{description}</p>
                     </div>
                 </div>
             </DialogTrigger>
