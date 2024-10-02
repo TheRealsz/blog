@@ -6,24 +6,29 @@ import {
     DialogTrigger,
     DialogDescription
 } from "@/components/ui/dialog"
+import { usePost } from "@/context/PostContext"
 import CreatePostType, { createPostSchema } from "@/schema/CreatePost.schema"
 import postRequest from "@/services/api/posts"
 import { catchError } from "@/utils/catchError"
 import { getUserInfo } from "@/utils/userStorage"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Plus } from "lucide-react"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
-interface ICreatePostModal {
-    getAllPosts: () => Promise<void>
+interface IPostModal {
+    children: React.ReactNode
+    postId?: string
+    userId?: string
+    title?: string
+    description?: string
 }
 
-const CreatePostModal = ({ getAllPosts }: ICreatePostModal) => {
+const PostModal = ({ children }: IPostModal) => {
     const userId = getUserInfo("_id")
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const { getAllPosts } = usePost()
 
     const {
         register,
@@ -53,15 +58,7 @@ const CreatePostModal = ({ getAllPosts }: ICreatePostModal) => {
         <Dialog>
             <DialogTrigger asChild>
                 <div>
-                    <button className="p-5 bg-main-500 rounded-full hover:bg-main-600 fixed bottom-5 right-3 md:hidden">
-                        <Plus size={25} />
-                    </button>
-                    <button className="hidden md:flex font-medium justify-end items-center gap-1 bg-main-500 px-3 py-2 rounded-md hover:bg-main-600 transition-all">
-                        <Plus size={20} />
-                        <span>
-                            Novo Post
-                        </span>
-                    </button>
+                    {children}
                 </div>
             </DialogTrigger>
             <DialogContent className="w-10/12 bg-dark-20 border-none rounded-lg gap-8 flex flex-col py-10 max-h-[600px]">
@@ -92,4 +89,4 @@ const CreatePostModal = ({ getAllPosts }: ICreatePostModal) => {
     )
 }
 
-export default CreatePostModal
+export default PostModal

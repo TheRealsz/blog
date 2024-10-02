@@ -1,13 +1,14 @@
 import { IoIosLogOut } from "react-icons/io";
 import userRequest from "../../../../../services/api/users";
-import toast from "react-hot-toast";
 import { catchError } from "../../../../../utils/catchError";
 import { getCurrentUser, removeCurrentUser } from "../../../../../utils/userStorage";
 import { removeTokenFromStorage } from "../../../../../utils/tokenStorage";
 import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SignOut = () => {
   const { setSignIn } = useAuth()
+  const navigate = useNavigate()
   const user = getCurrentUser()
   const handleSignOut = async () => {
     if (!user) return
@@ -20,6 +21,7 @@ const SignOut = () => {
       removeTokenFromStorage()
       removeCurrentUser()
       setSignIn(false)
+      navigate('/signin')
     }
   }
   return (

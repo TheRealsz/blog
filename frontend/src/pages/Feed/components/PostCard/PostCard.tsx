@@ -4,11 +4,15 @@ import PostCardDropdown from "./PostCardDropdown/PostCardDropdown"
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { DialogDescription } from "@radix-ui/react-dialog"
+import { getUserInfo } from "@/utils/userStorage"
 
-const PostCard = ({ authorName, createdAt, description, title }: IPosts) => {
+const PostCard = ({ authorName, createdAt, description, title, authorID }: IPosts) => {
 
+    const loggedUserId = getUserInfo("_id")
     const formattedDate = format(new Date(createdAt), 'dd MMM', { locale: ptBR });
+    const isPostOwner = loggedUserId[0] === authorID
 
+    
     return (
         <Dialog>
             <DialogTrigger className="text-left w-full xl:w-[76rem]">
@@ -18,7 +22,9 @@ const PostCard = ({ authorName, createdAt, description, title }: IPosts) => {
                             <span className="text-sm font-medium text-main-500 md:text-base xl:text-lg">{authorName}</span>
                             <span className="text-xs font-medium text-white/70">{formattedDate}</span>
                         </div>
-                        <PostCardDropdown />
+                        <div className={isPostOwner ? "block" : "hidden"}>
+                            <PostCardDropdown />
+                        </div>
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl font-medium text-ellipsis xl:text-2xl">{title}</h3>
@@ -30,7 +36,7 @@ const PostCard = ({ authorName, createdAt, description, title }: IPosts) => {
                 <DialogHeader className="text-left">
                     <h3 className="text-2xl font-medium">{title}</h3>
                     <p className="text-sm font-medium text-white/70">
-                        {authorName} 
+                        {authorName}
                         <span className="text-dark-50"> - {formattedDate}</span>
                     </p>
                 </DialogHeader>

@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
 import { removeTokenFromStorage } from "./tokenStorage";
-import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export const catchError = (e: any, defaultErrorMessage: string) => {
@@ -12,8 +11,7 @@ export const catchError = (e: any, defaultErrorMessage: string) => {
         if (error.response.status === 401) {
             removeTokenFromStorage()
             setTimeout(() => {
-                const navigate = useNavigate()
-                navigate('/signin')
+                window.location.href = "/signin"
             }, 1000)
         }
         return toast.error(message || defaultErrorMessage)

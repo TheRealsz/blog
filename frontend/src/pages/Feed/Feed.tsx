@@ -1,12 +1,11 @@
 import PostCard from "./components/PostCard/PostCard"
 import Navbar from "./components/Navbar/Navbar";
 import HeaderFeed from "./components/HeaderFeed/HeaderFeed";
-import CreatePostModal from "./components/CreatePostModal/CreatePostModal";
-import { catchError } from "@/utils/catchError";
-import postRequest from "@/services/api/posts";
-import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Error } from "@/components/Error";
+import PostModal from "./components/PostModal/PostModal";
+import { Plus } from "lucide-react";
+import { usePost } from "@/context/PostContext";
 
 export interface IPosts {
     authorID: string
@@ -19,25 +18,7 @@ export interface IPosts {
 
 const Feed = () => {
 
-    const [posts, setPosts] = useState<IPosts[]>([])
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    const getAllPosts = async () => {
-        setIsLoading(true)
-        try {
-            const { data } = await postRequest.getAllPost()
-            setPosts(data)
-        } catch (e) {
-            console.error(e)
-            catchError(e, "Erro ao buscar posts")
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        getAllPosts()
-    }, [])
+    const { isLoading, posts } = usePost()
 
     return (
         <>
@@ -46,7 +27,14 @@ const Feed = () => {
                 <HeaderFeed />
                 <main className="flex py-10 px-6 flex-col items-center gap-10 xl:py-14">
                     <div className="hidden md:flex md:justify-end w-full xl:w-[76rem]">
-                        <CreatePostModal getAllPosts={getAllPosts} />
+                        <PostModal>
+                            <button className="flex font-medium justify-end items-center gap-1 bg-main-500 px-3 py-2 rounded-md hover:bg-main-600 transition-all">
+                                <Plus size={20} />
+                                <span>
+                                    Novo Post
+                                </span>
+                            </button>
+                        </PostModal>
                     </div>
                     <div className="flex flex-col gap-10 w-full items-center">
                         {
@@ -81,7 +69,11 @@ const Feed = () => {
                     </div>
                 </main>
                 <div className="md:hidden">
-                    <CreatePostModal getAllPosts={getAllPosts} />
+                    <PostModal>
+                        <button className="p-5 bg-main-500 rounded-full hover:bg-main-600 fixed bottom-5 right-3">
+                            <Plus size={25} />
+                        </button>
+                    </PostModal>
                 </div>
             </div>
         </>
