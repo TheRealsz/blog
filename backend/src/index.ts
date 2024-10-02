@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from 'express';
 import cors from 'cors';
-import { main } from './db/conn'
+import { connectDb } from './db/conn'
 import router from './routes/router';
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 
 
 // DB connection
-main()
+connectDb()
 
 // Routes
 const routes = router

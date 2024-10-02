@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { env } from '../config/env'
 
 
-export async function main() {
+export async function connectDb() {
     try {
         mongoose.set("strictQuery", true)
         await mongoose.connect(env.urlConnect || "");
