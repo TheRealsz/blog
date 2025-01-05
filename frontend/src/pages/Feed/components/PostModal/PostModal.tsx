@@ -20,12 +20,11 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai"
 interface IPostModal {
     children: React.ReactNode
     postId?: string
-    userId?: string
     title?: string
     description?: string
 }
 
-const PostModal = ({ children }: IPostModal) => {
+const PostModal = ({ children, title, description, postId }: IPostModal) => {
     const userId = getUserInfo("_id")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { getAllPosts } = usePost()
@@ -36,19 +35,23 @@ const PostModal = ({ children }: IPostModal) => {
         formState: { errors },
         reset
     } = useForm<CreatePostType>({
-        resolver: zodResolver(createPostSchema)
+        resolver: zodResolver(createPostSchema),
+        defaultValues: {
+            title: title || "",
+            description: description || ""
+        }
     })
 
-    const handleCreatePost = async (createPostValues: CreatePostType) => {
+    const handleSavePost = async (createPostValues: CreatePostType) => {
         setIsLoading(true)
 
         try {
-            const { data } = await postRequest.createPost(userId, createPostValues)
+            const { data } = postId ? await postRequest.updatePost(userId, postId, createPostValues) : await postRequest.createPost(userId, createPostValues)
             toast.success(data.message)
             reset()
             getAllPosts()
         } catch (e) {
-            catchError(e, "Erro ao criar post")
+            catchError(e, "Erro ao salvar post")
         } finally {
             setIsLoading(false)
         }
@@ -57,16 +60,20 @@ const PostModal = ({ children }: IPostModal) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div>
+                <div onClick={(e) => e.stopPropagation()}>
                     {children}
                 </div>
             </DialogTrigger>
-            <DialogContent className="w-10/12 bg-dark-20 border-none rounded-lg gap-8 flex flex-col py-10 max-h-[600px]">
-                <DialogHeader>
-                    <DialogTitle className="text-center">Crie seu post</DialogTitle>
-                    <DialogDescription className="text-center">Crie um post e compartilhe seu conhecimento de tecnologia com as pessoas!</DialogDescription>
-                </DialogHeader>
-                <form className="flex w-full flex-col gap-6" onSubmit={handleSubmit(handleCreatePost)}>
+            <DialogContent onClick={(e) => e.stopPropagation()} className="w-10/12 bg-dark-20 border-none rounded-lg gap-8 flex flex-col py-10 max-h-[600px]">
+                {
+                    !postId && (
+                        <DialogHeader>
+                            <DialogTitle className="text-center">Crie seu post</DialogTitle>
+                            <DialogDescription className="text-center">Crie um post e compartilhe seu conhecimento de tecnologia com as pessoas!</DialogDescription>
+                        </DialogHeader>
+                    )
+                }
+                <form className="flex w-full flex-col gap-6" onSubmit={handleSubmit(handleSavePost)}>
                     <div className="flex flex-col gap-1 w-full">
                         <label htmlFor="title">Título</label>
                         <input disabled={isLoading} {...register("title")} type="text" className="w-full bg-dark-40 text-dark-50 p-2 rounded-md border-solid border border-dark-40 focus:border-main-900 outline-none 2xl:py-2" placeholder="Insira o título" />

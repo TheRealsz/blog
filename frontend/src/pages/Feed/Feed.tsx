@@ -19,7 +19,7 @@ export interface IPosts {
 const Feed = () => {
 
     const { isLoading, posts } = usePost()
-
+    
     return (
         <>
             <div className="w-full h-screen relative">

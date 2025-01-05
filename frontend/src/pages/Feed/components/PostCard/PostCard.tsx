@@ -6,13 +6,13 @@ import { ptBR } from 'date-fns/locale'
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { getUserInfo } from "@/utils/userStorage"
 
-const PostCard = ({ authorName, createdAt, description, title, authorID }: IPosts) => {
+const PostCard = ({ authorName, createdAt, description, title, authorID, id }: IPosts) => {
 
     const loggedUserId = getUserInfo("_id")
     const formattedDate = format(new Date(createdAt), 'dd MMM', { locale: ptBR });
     const isPostOwner = loggedUserId[0] === authorID
 
-    
+
     return (
         <Dialog>
             <DialogTrigger className="text-left w-full xl:w-[76rem]">
@@ -23,7 +23,11 @@ const PostCard = ({ authorName, createdAt, description, title, authorID }: IPost
                             <span className="text-xs font-medium text-white/70">{formattedDate}</span>
                         </div>
                         <div className={isPostOwner ? "block" : "hidden"}>
-                            <PostCardDropdown />
+                            <PostCardDropdown
+                                description={description}
+                                title={title}
+                                id={id}
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">

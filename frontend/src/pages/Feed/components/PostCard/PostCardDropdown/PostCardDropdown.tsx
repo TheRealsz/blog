@@ -1,8 +1,16 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreVertical, Pencil, Trash } from "lucide-react";
 import PostModal from "../../PostModal/PostModal";
+import { IPosts } from "@/pages/Feed/Feed";
 
-const PostCardDropdown = () => {
+type IPostCardDropdown = Pick<IPosts, 'id' | 'title' | 'description'>
+
+const PostCardDropdown = ({ id, title, description }: IPostCardDropdown) => {
+
+    const handleSelectDropdownItem = (event: Event) => {
+        event.stopPropagation()
+        event.preventDefault()
+    }
 
     return (
         <DropdownMenu>
@@ -10,8 +18,12 @@ const PostCardDropdown = () => {
                 <MoreVertical className="cursor-pointer" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-dark-20 text-white border-dark-30">
-                <PostModal>
-                    <DropdownMenuItem className="cursor-pointer" onSelect={(event) => event.preventDefault()}>
+                <PostModal
+                    description={description}
+                    postId={id}
+                    title={title}
+                >
+                    <DropdownMenuItem className="cursor-pointer" onSelect={handleSelectDropdownItem}>
                         <div className="flex gap-2 items-center">
                             <Pencil />
                             <span>Editar</span>
