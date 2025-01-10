@@ -37,8 +37,8 @@ const PostModal = ({ children, title, description, postId }: IPostModal) => {
     } = useForm<CreatePostType>({
         resolver: zodResolver(createPostSchema),
         defaultValues: {
-            title: title || "",
-            description: description || ""
+            title: title ?? "",
+            description: description ?? ""
         }
     })
 
@@ -60,9 +60,9 @@ const PostModal = ({ children, title, description, postId }: IPostModal) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div onClick={(e) => e.stopPropagation()}>
+                <button onClick={(e) => e.stopPropagation()}>
                     {children}
-                </div>
+                </button>
             </DialogTrigger>
             <DialogContent onClick={(e) => e.stopPropagation()} className="w-10/12 bg-dark-20 border-none rounded-lg gap-8 flex flex-col py-10 max-h-[600px]">
                 {
