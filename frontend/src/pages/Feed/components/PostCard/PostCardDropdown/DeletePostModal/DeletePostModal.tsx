@@ -5,11 +5,38 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { ReactNode } from "react"
+import { usePost } from "@/context/PostContext"
+import postRequest from "@/services/api/posts"
+import { catchError } from "@/utils/catchError"
+import { getUserInfo } from "@/utils/userStorage"
+import { ReactNode, useState } from "react"
+import toast from "react-hot-toast"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
-const DeletePostModal = ({ children }: { children: ReactNode }) => {
-    const isLoading = false
+interface IDeletePostModal {
+    postId: string
+    children: ReactNode
+}
+
+const DeletePostModal = ({ children, postId }: IDeletePostModal) => {
+    const [isLoading, setIsLoading] = useState(false)
+    const { getAllPosts } = usePost()
+    const userId = getUserInfo("_id")
+
+    const handleDeletePost = async () => {
+        setIsLoading(true)
+        try {
+            await postRequest.deletePost(userId, postId)
+            getAllPosts()
+            toast.success("Post excluído com sucesso")
+        } catch (error) {
+            console.log(error)
+            catchError(error, "Erro ao excluir post")
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -22,22 +49,22 @@ const DeletePostModal = ({ children }: { children: ReactNode }) => {
                     <DialogTitle>Excluir post</DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col items-center w-full">
-                    <form className="flex w-11/12 flex-col gap-6 md:w-9/12">
+                    <div className="flex w-11/12 flex-col gap-6 md:w-9/12">
                         <div className="flex flex-col gap-2">
                             <p className="text-center">Realmente deseja excluir seu post? Essa é uma ação irreversível.</p>
                         </div>
                         <div className="flex flex-col gap-4 md:flex-row">
-                            <button className="border-dark-50 border font-medium py-1.5 rounded-md flex-1 hover:border-dark-40 hover:bg-dark-30 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50">
+                            <button disabled={isLoading} className="border-dark-50 border font-medium py-1.5 rounded-md flex-1 hover:border-dark-40 hover:bg-dark-30 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50">
                                 Cancelar
                             </button>
-                            <button type="submit" className="bg-red-600 font-medium py-1.5 rounded-md flex-1 flex items-center justify-center gap-2 hover:bg-red-700 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50">
+                            <button type="button" disabled={isLoading} onClick={handleDeletePost} className="bg-red-600 font-medium py-1.5 rounded-md flex-1 flex items-center justify-center gap-2 hover:bg-red-700 transition-all outline-none disabled:bg-opacity-50 disabled:text-white/50">
                                 {
                                     isLoading && <AiOutlineLoading3Quarters className="animate-spin" />
                                 }
                                 Excluir post
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>

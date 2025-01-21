@@ -10,6 +10,7 @@ export const catchError = (e: any, defaultErrorMessage: string) => {
         const message = serverError.message;
         if (error.response.status === 401) {
             removeTokenFromStorage()
+            if (window.location.pathname === "/signin") return
             setTimeout(() => {
                 window.location.href = "/signin"
             }, 1000)

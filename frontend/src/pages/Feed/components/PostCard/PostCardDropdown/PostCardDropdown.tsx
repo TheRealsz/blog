@@ -31,7 +31,9 @@ const PostCardDropdown = ({ id, title, description }: IPostCardDropdown) => {
                         </div>
                     </DropdownMenuItem>
                 </PostModal>
-                <DeletePostModal>
+                <DeletePostModal
+                    postId={id}
+                >
                     <DropdownMenuItem className="cursor-pointer text-red-600 focus:bg-red-600 focus:text-white" onSelect={handleSelectDropdownItem}>
                         <div className="flex gap-2 items-center">
                             <Trash />
